@@ -1,4 +1,4 @@
-package com.reflecta.user.entity;
+package com.reflecta.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -45,9 +45,9 @@ public class User {
     private List<DailyGoal> dailyGoalList;
     
     
-
-    //empty classes created only to test the User Entity
-
+/*
+ 
+//empty classes created only to test the User Entity
 public class Diet {
     // Placeholder class for now
 }
@@ -83,6 +83,7 @@ public class JournalEntry {
     // Placeholder class for now
 }
 
+*/
 
 
 
