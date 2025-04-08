@@ -21,8 +21,9 @@ public class Users {
     private double height;
     private double weight;
     
+    
 
-    public Long getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -134,42 +135,30 @@ public class Users {
 		this.mentalHealthAlertList = mentalHealthAlertList;
 	}
 
-	public List<LongTermGoal> getLongtermGoalList() {
-		return longtermGoalList;
+	public List<Goal> getGoals() {
+		return goals;
 	}
 
-	public void setLongtermGoalList(List<LongTermGoal> longtermGoalList) {
-		this.longtermGoalList = longtermGoalList;
-	}
-
-	public List<DailyGoal> getDailyGoalList() {
-		return dailyGoalList;
-	}
-
-	public void setDailyGoalList(List<DailyGoal> dailyGoalList) {
-		this.dailyGoalList = dailyGoalList;
+	public void setGoals(List<Goal> goals) {
+		this.goals = goals;
 	}
 	
 	
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", dateOfBirth=" + dateOfBirth + ", age="
+		return "Users [id=" + id + ", name=" + name + ", email=" + email + ", dateOfBirth=" + dateOfBirth + ", age="
 				+ age + ", gender=" + gender + ", height=" + height + ", weight=" + weight + ", exerciseDataList="
 				+ exerciseDataList + ", dietList=" + dietList + ", sleepList=" + sleepList + ", moods=" + moods
 				+ ", journalEntryList=" + journalEntryList + ", mentalHealthAlertList=" + mentalHealthAlertList
-				+ ", longtermGoalList=" + longtermGoalList + ", dailyGoalList=" + dailyGoalList + "]";
+				+ ", goals=" + goals + "]";
 	}
 	
-	
-
-	
-
 
 	public Users(Long id, String name, String email, LocalDate dateOfBirth, int age, String gender, double height,
 			double weight, List<ExerciseData> exerciseDataList, List<Diet> dietList, List<Sleep> sleepList,
 			List<Mood> moods, List<JournalEntry> journalEntryList, List<MentalHealthAlert> mentalHealthAlertList,
-			List<LongTermGoal> longtermGoalList, List<DailyGoal> dailyGoalList) {
+			List<Goal> goals) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -185,13 +174,11 @@ public class Users {
 		this.moods = moods;
 		this.journalEntryList = journalEntryList;
 		this.mentalHealthAlertList = mentalHealthAlertList;
-		this.longtermGoalList = longtermGoalList;
-		this.dailyGoalList = dailyGoalList;
+		this.goals = goals;
 	}
-
+	
 	public Users() {}
-	
-	
+
 	@OneToMany(mappedBy = "user")
     private List<ExerciseData> exerciseDataList;
 
@@ -210,12 +197,7 @@ public class Users {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<MentalHealthAlert> mentalHealthAlertList;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<LongTermGoal> longtermGoalList;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<DailyGoal> dailyGoalList;
-    
-
+    @OneToMany(mappedBy = "user")
+    private List<Goal> goals;
 
 }
