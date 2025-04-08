@@ -6,10 +6,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Data
+//@Data
+@Table(name = "mentalhealthalert") 
+
 public class MentalHealthAlert {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +21,78 @@ public class MentalHealthAlert {
     private String message;
     private String counsellorName;
     private String counsellorPhone;
+    
+    public MentalHealthAlert() {}
 
-    @ManyToOne
+    public MentalHealthAlert(Long id, LocalDate date, String message, String counsellorName, String counsellorPhone,
+			Users user) {
+		super();
+		this.id = id;
+		this.date = date;
+		this.message = message;
+		this.counsellorName = counsellorName;
+		this.counsellorPhone = counsellorPhone;
+		this.user = user;
+	}
+
+	@Override
+	public String toString() {
+		return "MentalHealthAlert [id=" + id + ", date=" + date + ", message=" + message + ", counsellorName="
+				+ counsellorName + ", counsellorPhone=" + counsellorPhone + ", user=" + user + ", getId()=" + getId()
+				+ ", getDate()=" + getDate() + ", getMessage()=" + getMessage() + ", getCounsellorName()="
+				+ getCounsellorName() + ", getCounsellorPhone()=" + getCounsellorPhone() + ", getUser()=" + getUser()
+				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
+				+ "]";
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public String getCounsellorName() {
+		return counsellorName;
+	}
+
+	public void setCounsellorName(String counsellorName) {
+		this.counsellorName = counsellorName;
+	}
+
+	public String getCounsellorPhone() {
+		return counsellorPhone;
+	}
+
+	public void setCounsellorPhone(String counsellorPhone) {
+		this.counsellorPhone = counsellorPhone;
+	}
+
+	public Users getUser() {
+		return user;
+	}
+
+	public void setUser(Users user) {
+		this.user = user;
+	}
+
+	@ManyToOne
     private Users user;
 }
