@@ -1,4 +1,4 @@
-package com.reflecta.user;
+package com.reflecta;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
