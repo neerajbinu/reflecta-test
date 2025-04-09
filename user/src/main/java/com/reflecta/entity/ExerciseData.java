@@ -16,6 +16,8 @@ public class ExerciseData {
     private String exerciseType;
     private double durationMinutes;
     private double caloriesBurned;
+    
+ // --- Constructors ---
 
     public ExerciseData() {}
     public ExerciseData(Long id, LocalDate date, String exerciseType, double durationMinutes, double caloriesBurned,
@@ -29,15 +31,21 @@ public class ExerciseData {
 		this.user = user;
 	}
 
+	// --- toString ---
+
 	@Override
 	public String toString() {
 		return "ExerciseData [id=" + id + ", date=" + date + ", exerciseType=" + exerciseType + ", durationMinutes="
-				+ durationMinutes + ", caloriesBurned=" + caloriesBurned + ", user=" + user + ", getId()=" + getId()
-				+ ", getDate()=" + getDate() + ", getExerciseType()=" + getExerciseType() + ", getDurationMinutes()="
-				+ getDurationMinutes() + ", getCaloriesBurned()=" + getCaloriesBurned() + ", getUser()=" + getUser()
-				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
-				+ "]";
+		+ durationMinutes + ", caloriesBurned=" + caloriesBurned + "]";
+		
+				//, user=" + user + ", getId()=" + getId()
+//				+ ", getDate()=" + getDate() + ", getExerciseType()=" + getExerciseType() + ", getDurationMinutes()="
+//				+ getDurationMinutes() + ", getCaloriesBurned()=" + getCaloriesBurned() + ", getUser()=" + getUser()
+//				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
+//				+ "]";
 	}
+	
+	// --- Getters & Setters --
 
 	public Long getId() {
 		return id;
@@ -87,6 +95,7 @@ public class ExerciseData {
 		this.user = user;
 	}
 
-	@ManyToOne
-    private Users user;
+	 @ManyToOne(optional = false)
+	 @JoinColumn(name = "user_id")
+	    private Users user;
 }

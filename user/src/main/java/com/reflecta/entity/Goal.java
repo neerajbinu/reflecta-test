@@ -1,8 +1,8 @@
 package com.reflecta.entity;
 import java.time.LocalDate;
 
-import com.reflecta.goal.enums.Frequency;
-import com.reflecta.goal.enums.GoalType;
+import com.reflecta.enums.goal.Frequency;
+import com.reflecta.enums.goal.GoalType;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -10,6 +10,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -33,6 +34,7 @@ public class Goal {
     private LocalDate endDate;
     private String status;
 
+ // --- Getters & Setters --
     
 	public Long getId() {
 		return id;
@@ -122,12 +124,17 @@ public class Goal {
 		this.user = user;
 	}
 
+	// --- toString ---
+
 	@Override
 	public String toString() {
 		return "Goal [id=" + id + ", type=" + type + ", frequency=" + frequency + ", targetHours=" + targetHours
 				+ ", currentProgress=" + currentProgress + ", startDate=" + startDate + ", endDate=" + endDate
-				+ ", status=" + status + ", user=" + user + "]";
+				+ ", status=" + status + "]";
+		//, user=" + user + "]";
 	}
+	
+	// --- Constructors ---
 	
 	public Goal(Long id, GoalType type, Frequency frequency, double targetHours, double currentProgress,
 			LocalDate startDate, LocalDate endDate, String status, Users user) {
@@ -146,8 +153,9 @@ public class Goal {
 	public Goal() {}
 
 
-	@ManyToOne
-    private Users user;
+	 @ManyToOne(optional = false)
+	 @JoinColumn(name = "user_id")
+	    private Users user;
 }
 
 

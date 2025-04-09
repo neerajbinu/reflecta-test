@@ -18,6 +18,8 @@ public class FoodItem {
     private double proteinPerServing;
     private double fatPerServing;
     
+ // --- Constructors ---
+    
     public FoodItem( ) {}
     
 	public FoodItem(Long id, String name, double caloriesPerServing, double carbsPerServing, double proteinPerServing,
@@ -30,16 +32,24 @@ public class FoodItem {
 		this.proteinPerServing = proteinPerServing;
 		this.fatPerServing = fatPerServing;
 	}
+	
+	// --- toString ---
+
 	@Override
 	public String toString() {
 		return "FoodItem [id=" + id + ", name=" + name + ", caloriesPerServing=" + caloriesPerServing
 				+ ", carbsPerServing=" + carbsPerServing + ", proteinPerServing=" + proteinPerServing
-				+ ", fatPerServing=" + fatPerServing + ", getId()=" + getId() + ", getName()=" + getName()
-				+ ", getCaloriesPerServing()=" + getCaloriesPerServing() + ", getCarbsPerServing()="
-				+ getCarbsPerServing() + ", getProteinPerServing()=" + getProteinPerServing() + ", getFatPerServing()="
-				+ getFatPerServing() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
-				+ super.toString() + "]";
+				+ ", fatPerServing=" + fatPerServing + "]";
+		
+//		, getId()=" + getId() + ", getName()=" + getName()
+//				+ ", getCaloriesPerServing()=" + getCaloriesPerServing() + ", getCarbsPerServing()="
+//				+ getCarbsPerServing() + ", getProteinPerServing()=" + getProteinPerServing() + ", getFatPerServing()="
+//				+ getFatPerServing() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+//				+ super.toString() + "]";
 	}
+	
+	// --- Getters & Setters --
+	
 	public Long getId() {
 		return id;
 	}

@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -22,6 +23,8 @@ public class MentalHealthAlert {
     private String counsellorName;
     private String counsellorPhone;
     
+ // --- Constructors ---
+    
     public MentalHealthAlert() {}
 
     public MentalHealthAlert(Long id, LocalDate date, String message, String counsellorName, String counsellorPhone,
@@ -35,15 +38,20 @@ public class MentalHealthAlert {
 		this.user = user;
 	}
 
+	// --- toString ---
+
 	@Override
 	public String toString() {
 		return "MentalHealthAlert [id=" + id + ", date=" + date + ", message=" + message + ", counsellorName="
-				+ counsellorName + ", counsellorPhone=" + counsellorPhone + ", user=" + user + ", getId()=" + getId()
-				+ ", getDate()=" + getDate() + ", getMessage()=" + getMessage() + ", getCounsellorName()="
-				+ getCounsellorName() + ", getCounsellorPhone()=" + getCounsellorPhone() + ", getUser()=" + getUser()
-				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
-				+ "]";
+				+ counsellorName + ", counsellorPhone=" + counsellorPhone + "]";
+//		, user=" + user + ", getId()=" + getId()
+//				+ ", getDate()=" + getDate() + ", getMessage()=" + getMessage() + ", getCounsellorName()="
+//				+ getCounsellorName() + ", getCounsellorPhone()=" + getCounsellorPhone() + ", getUser()=" + getUser()
+//				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
+//				+ "]";
 	}
+	
+	// --- Getters & Setters --
 
 	public Long getId() {
 		return id;
@@ -93,6 +101,7 @@ public class MentalHealthAlert {
 		this.user = user;
 	}
 
-	@ManyToOne
-    private Users user;
+	 @ManyToOne(optional = false)
+	    @JoinColumn(name = "user_id")
+	    private Users user;
 }

@@ -5,6 +5,8 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import com.reflecta.enums.sleep.SleepQuality;
+
 
 
 @Entity
@@ -20,28 +22,11 @@ public class Sleep {
     private LocalTime sleepEndTime;
     private double durationHours;
     
-    public Sleep() {}
+    @Enumerated(EnumType.STRING)
+    private SleepQuality sleepQuality;
+    
+ // --- Getters & Setters --
 
-    public Sleep(Long id, LocalDate date, LocalTime sleepStartTime, LocalTime sleepEndTime, double durationHours,
-			Users user) {
-		super();
-		this.id = id;
-		this.date = date;
-		this.sleepStartTime = sleepStartTime;
-		this.sleepEndTime = sleepEndTime;
-		this.durationHours = durationHours;
-		this.user = user;
-	}
-
-	@Override
-	public String toString() {
-		return "Sleep [id=" + id + ", date=" + date + ", sleepStartTime=" + sleepStartTime + ", sleepEndTime="
-				+ sleepEndTime + ", durationHours=" + durationHours + ", user=" + user + ", getId()=" + getId()
-				+ ", getDate()=" + getDate() + ", getSleepStartTime()=" + getSleepStartTime() + ", getSleepEndTime()="
-				+ getSleepEndTime() + ", getDurationHours()=" + getDurationHours() + ", getUser()=" + getUser()
-				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
-				+ "]";
-	}
 
 	public Long getId() {
 		return id;
@@ -90,7 +75,51 @@ public class Sleep {
 	public void setUser(Users user) {
 		this.user = user;
 	}
+	
+    
+    public SleepQuality getSleepQuality() {
+		return sleepQuality;
+	}
 
-	@ManyToOne
+	public void setSleepQuality(SleepQuality sleepQuality) {
+		this.sleepQuality = sleepQuality;
+	}
+
+	// --- Constructors ---
+	
+
+	public Sleep() {}
+
+	public Sleep(Long id, LocalDate date, LocalTime sleepStartTime, LocalTime sleepEndTime, double durationHours,
+			SleepQuality sleepQuality, Users user) {
+		super();
+		this.id = id;
+		this.date = date;
+		this.sleepStartTime = sleepStartTime;
+		this.sleepEndTime = sleepEndTime;
+		this.durationHours = durationHours;
+		this.sleepQuality = sleepQuality;
+		this.user = user;
+	}
+
+	// --- toString ---
+
+	@Override
+	public String toString() {
+		return "Sleep [id=" + id + ", date=" + date + ", sleepStartTime=" + sleepStartTime + ", sleepEndTime="
+				+ sleepEndTime + ", durationHours=" + durationHours + "]";
+		
+//		, user=" + user + ", getId()=" + getId()
+//				+ ", getDate()=" + getDate() + ", getSleepStartTime()=" + getSleepStartTime() + ", getSleepEndTime()="
+//				+ getSleepEndTime() + ", getDurationHours()=" + getDurationHours() + ", getUser()=" + getUser()
+//				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
+//				+ "]";
+	}
+
+
+
+
+	@ManyToOne(optional = false)
+    @JoinColumn(name = "user_id")
     private Users user;
 }

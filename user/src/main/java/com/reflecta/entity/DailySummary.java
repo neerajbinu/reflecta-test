@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -19,6 +20,8 @@ public class DailySummary {
 	    @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Long id;
+	    
+	    
 	    private LocalDate date;
 	    private int totalSteps;
 	    private double totalCaloriesBurned;
@@ -27,19 +30,24 @@ public class DailySummary {
 	    private String moodStatus;
 
 	    
-	    public DailySummary() {}
+	    // --- toString ---
+
+	    
 	    @Override
 		public String toString() {
 			return "DailySummary [id=" + id + ", date=" + date + ", totalSteps=" + totalSteps + ", totalCaloriesBurned="
 					+ totalCaloriesBurned + ", totalCaloriesConsumed=" + totalCaloriesConsumed + ", sleepHours="
-					+ sleepHours + ", moodStatus=" + moodStatus + ", user=" + user + ", getId()=" + getId()
-					+ ", getDate()=" + getDate() + ", getTotalSteps()=" + getTotalSteps()
-					+ ", getTotalCaloriesBurned()=" + getTotalCaloriesBurned() + ", getTotalCaloriesConsumed()="
-					+ getTotalCaloriesConsumed() + ", getSleepHours()=" + getSleepHours() + ", getMoodStatus()="
-					+ getMoodStatus() + ", getUser()=" + getUser() + ", getClass()=" + getClass() + ", hashCode()="
-					+ hashCode() + ", toString()=" + super.toString() + "]";
+					+ sleepHours + ", moodStatus=" + moodStatus + "]";
+//			, user=" + user + ", getId()=" + getId()
+//					+ ", getDate()=" + getDate() + ", getTotalSteps()=" + getTotalSteps()
+//					+ ", getTotalCaloriesBurned()=" + getTotalCaloriesBurned() + ", getTotalCaloriesConsumed()="
+//					+ getTotalCaloriesConsumed() + ", getSleepHours()=" + getSleepHours() + ", getMoodStatus()="
+//					+ getMoodStatus() + ", getUser()=" + getUser() + ", getClass()=" + getClass() + ", hashCode()="
+//					+ hashCode() + ", toString()=" + super.toString() + "]";
 		}
 
+	 // --- Getters & Setters --
+	    
 		public Long getId() {
 			return id;
 		}
@@ -103,6 +111,11 @@ public class DailySummary {
 		public void setUser(Users user) {
 			this.user = user;
 		}
+		
+		// --- Constructors ---
+		
+		   public DailySummary() {}	
+		    
 
 		public DailySummary(Long id, LocalDate date, int totalSteps, double totalCaloriesBurned,
 				double totalCaloriesConsumed, double sleepHours, String moodStatus, Users user) {
@@ -117,7 +130,9 @@ public class DailySummary {
 			this.user = user;
 		}
 
-		@ManyToOne
+	
+	    @ManyToOne(optional = false)
+	    @JoinColumn(name = "user_id")
 	    private Users user;
 	}
 
