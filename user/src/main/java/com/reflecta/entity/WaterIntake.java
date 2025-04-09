@@ -4,6 +4,8 @@ package com.reflecta.entity;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "water_intake")
 public class WaterIntake {
@@ -11,7 +13,9 @@ public class WaterIntake {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
+//    JsonIgnore for preventing loops in Postman
+    @JsonIgnore 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
     private Users user;
