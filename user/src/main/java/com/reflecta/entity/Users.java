@@ -143,6 +143,14 @@ public class Users {
 		this.goals = goals;
 	}
 	
+	 public List<WaterIntake> getWaterIntakeList() {
+			return waterIntakeList;
+		}
+
+	public void setWaterIntakeList(List<WaterIntake> waterIntakeList) {
+			this.waterIntakeList = waterIntakeList;
+		}
+	
 	
 	
 	@Override
@@ -166,7 +174,7 @@ public class Users {
 	public Users(Long id, String name, String email, LocalDate dateOfBirth, int age, String gender, double height,
 			double weight, List<ExerciseData> exerciseDataList, List<Diet> dietList, List<Sleep> sleepList,
 			List<Mood> moods, List<JournalEntry> journalEntryList, List<MentalHealthAlert> mentalHealthAlertList,
-			List<Goal> goals) {
+			List<Goal> goals, List<WaterIntake> waterIntakeList) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -183,20 +191,22 @@ public class Users {
 		this.journalEntryList = journalEntryList;
 		this.mentalHealthAlertList = mentalHealthAlertList;
 		this.goals = goals;
+		this.waterIntakeList = waterIntakeList;
 	}
 	
 	public Users() {}
 
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ExerciseData> exerciseDataList;
 
-    @OneToMany(mappedBy = "user")
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Diet> dietList;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Sleep> sleepList;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Mood> moods;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -204,8 +214,11 @@ public class Users {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<MentalHealthAlert> mentalHealthAlertList;
+    
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<WaterIntake> waterIntakeList;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Goal> goals;
 
 }
