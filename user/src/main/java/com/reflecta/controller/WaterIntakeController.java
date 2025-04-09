@@ -1,8 +1,9 @@
 package com.reflecta.controller;
 
+import com.reflecta.dto.WaterRequest;
 import com.reflecta.entity.Users;
 import com.reflecta.entity.WaterIntake;
-import com.reflecta.service.UserService;
+import com.reflecta.service.UsersService;
 import com.reflecta.service.WaterIntakeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,35 +15,42 @@ import java.util.List;
 public class WaterIntakeController {
 
     @Autowired
-    private WaterIntakeService waterIntakeService;
+    private WaterIntakeService waterIntake;
 
     @Autowired
-    private UserService userService;
+    private UsersService userService;
 
-    // Example: POST /api/water-intake/add?userId=1&ml=250
+//    @PostMapping("/add") --have to give the input in URL
+//    public WaterIntake addWater(@RequestParam Long userId, @RequestParam Integer ml) {
+//        Users user = userService.getUserById(userId);
+//        return waterIntake.saveOrUpdateWaterIntake(user, ml);
+//    }
+    
     @PostMapping("/add")
-    public WaterIntake addWater(@RequestParam Long userId, @RequestParam Integer ml) {
-        Users user = userService.getUserById(userId);
-        return waterIntakeService.saveOrUpdateWaterIntake(user, ml);
+    public WaterIntake addWater(@RequestBody WaterRequest request) {
+        Users user = userService.getUserById(request.getUserId());
+        return waterIntake.saveOrUpdateWaterIntake(user, request.getMl());
     }
 
-    // Example: GET /api/water-intake/last7?userId=1
-    @GetMapping("/last7")
-    public List<WaterIntake> getLast7Days(@RequestParam Long userId) {
+
+    @GetMapping("/last7/{userid}")
+    public List<WaterIntake> getLast7Days(@PathVariable Long userId) {
         Users user = userService.getUserById(userId);
-        return waterIntakeService.getLast7DaysIntake(user);
+        return waterIntake.getLast7DaysIntake(user);
     }
 
-    // Example: GET /api/water-intake/today?userId=1
-    @GetMapping("/today")
-    public WaterIntake getToday(@RequestParam Long userId) {
+    @GetMapping("/today/{userId}")
+    public WaterIntake getToday(@PathVariable Long userId) {
         Users user = userService.getUserById(userId);
-        return waterIntakeService.getTodayIntake(user).orElse(null);
+        return waterIntake.getTodayIntake(user).orElse(null);
     }
 
-    // Optional
     @DeleteMapping("/{id}")
     public void deleteIntake(@PathVariable Long id) {
-        waterIntakeService.deleteWaterIntake(id);
+        waterIntake.deleteWaterIntake(id);
     }
 }
+
+
+
+
