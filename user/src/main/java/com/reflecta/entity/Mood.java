@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -22,6 +23,8 @@ import lombok.Data;
 	    private String moodStatus;
 	    private int stressLevel;
 	    
+	 // --- Constructors ---
+	    
 	    public Mood() {}
 
 	    public Mood(Long id, LocalDate date, String moodStatus, int stressLevel, Users user) {
@@ -33,15 +36,21 @@ import lombok.Data;
 			this.user = user;
 		}
 
+		// --- toString ---
+
 		@Override
 		public String toString() {
 			return "Mood [id=" + id + ", date=" + date + ", moodStatus=" + moodStatus + ", stressLevel=" + stressLevel
-					+ ", user=" + user + ", getId()=" + getId() + ", getDate()=" + getDate() + ", getMoodStatus()="
-					+ getMoodStatus() + ", getStressLevel()=" + getStressLevel() + ", getUser()=" + getUser()
-					+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
 					+ "]";
+			
+//					, user=" + user + ", getId()=" + getId() + ", getDate()=" + getDate() + ", getMoodStatus()="
+//					+ getMoodStatus() + ", getStressLevel()=" + getStressLevel() + ", getUser()=" + getUser()
+//					+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
+//					+ "]";
 		}
 
+		// --- Getters & Setters --
+		
 		public Long getId() {
 			return id;
 		}
@@ -81,11 +90,11 @@ import lombok.Data;
 		public void setUser(Users user) {
 			this.user = user;
 		}
-
-		@ManyToOne
-	    private Users user;
-	
-
+		 
+		
+		@ManyToOne(optional = false)
+		    @JoinColumn(name = "user_id")
+		    private Users user;
 }
 
 

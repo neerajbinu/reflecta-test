@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -22,6 +23,8 @@ import lombok.Data;
 	    private String title;
 	    private String content;
 	    
+	 // --- Constructors ---
+	    
 	    public JournalEntry() {}
 
 	    public JournalEntry(Long id, LocalDate date, String title, String content, Users user) {
@@ -32,14 +35,20 @@ import lombok.Data;
 			this.content = content;
 			this.user = user;
 		}
+	    
+		// --- toString ---
 
 		@Override
 		public String toString() {
-			return "JournalEntry [id=" + id + ", date=" + date + ", title=" + title + ", content=" + content + ", user="
-					+ user + ", getId()=" + getId() + ", getDate()=" + getDate() + ", getTitle()=" + getTitle()
-					+ ", getContent()=" + getContent() + ", getUser()=" + getUser() + ", getClass()=" + getClass()
-					+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+			return "JournalEntry [id=" + id + ", date=" + date + ", title=" + title + ", content=" + content + "]";
+
+					//					, user="
+//					+ user + ", getId()=" + getId() + ", getDate()=" + getDate() + ", getTitle()=" + getTitle()
+//					+ ", getContent()=" + getContent() + ", getUser()=" + getUser() + ", getClass()=" + getClass()
+//					+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
 		}
+		
+		// --- Getters & Setters --
 
 		public Long getId() {
 			return id;
@@ -81,8 +90,10 @@ import lombok.Data;
 			this.user = user;
 		}
 
-		@ManyToOne
-	    private Users user;
+		 
+		@ManyToOne(optional = false)
+	    @JoinColumn(name = "user_id")
+		    private Users user;
 	
 
 }

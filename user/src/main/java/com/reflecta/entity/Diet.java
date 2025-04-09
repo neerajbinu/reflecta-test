@@ -2,10 +2,16 @@ package com.reflecta.entity;
 
 import java.time.LocalDate;
 
+import com.reflecta.enums.diet.MealType;
+import com.reflecta.enums.goal.GoalType;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -19,21 +25,27 @@ public class Diet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDate date;
-    private String mealType;
     private double servings;
     private double totalCalories;
     private double totalCarbs;
     private double totalProtein;
     private double totalFat;
     
+    
+    @Enumerated(EnumType.STRING)
+    private MealType type;
+
+    
+ // --- Constructors ---
+    
     public Diet() {}
 
-    public Diet(Long id, LocalDate date, String mealType, double servings, double totalCalories, double totalCarbs,
+    public Diet(Long id, LocalDate date, MealType type, double servings, double totalCalories, double totalCarbs,
 			double totalProtein, double totalFat, FoodItem foodItem, Users user) {
 		super();
 		this.id = id;
 		this.date = date;
-		this.mealType = mealType;
+		this.type = type;
 		this.servings = servings;
 		this.totalCalories = totalCalories;
 		this.totalCarbs = totalCarbs;
@@ -43,18 +55,24 @@ public class Diet {
 		this.user = user;
 	}
 
+	// --- toString ---
+
 	@Override
 	public String toString() {
-		return "Diet [id=" + id + ", date=" + date + ", mealType=" + mealType + ", servings=" + servings
+		return "Diet [id=" + id + ", date=" + date + ", type=" + type + ", servings=" + servings
 				+ ", totalCalories=" + totalCalories + ", totalCarbs=" + totalCarbs + ", totalProtein=" + totalProtein
-				+ ", totalFat=" + totalFat + ", foodItem=" + foodItem + ", user=" + user + ", getId()=" + getId()
-				+ ", getDate()=" + getDate() + ", getMealType()=" + getMealType() + ", getServings()=" + getServings()
-				+ ", getTotalCalories()=" + getTotalCalories() + ", getTotalCarbs()=" + getTotalCarbs()
-				+ ", getTotalProtein()=" + getTotalProtein() + ", getTotalFat()=" + getTotalFat() + ", getFoodItem()="
-				+ getFoodItem() + ", getUser()=" + getUser() + ", getClass()=" + getClass() + ", hashCode()="
-				+ hashCode() + ", toString()=" + super.toString() + "]";
+				+ ", totalFat=" + totalFat + ", foodItem=" + foodItem + "]";
+				
+//				, user=" + user + ", getId()=" + getId()
+//				+ ", getDate()=" + getDate() + ", getMealType()=" + type() + ", getServings()=" + getServings()
+//				+ ", getTotalCalories()=" + getTotalCalories() + ", getTotalCarbs()=" + getTotalCarbs()
+//				+ ", getTotalProtein()=" + getTotalProtein() + ", getTotalFat()=" + getTotalFat() + ", getFoodItem()="
+//				+ getFoodItem() + ", getUser()=" + getUser() + ", getClass()=" + getClass() + ", hashCode()="
+//				+ hashCode() + ", toString()=" + super.toString() + "]";
 	}
 
+	// --- Getters & Setters --
+	
 	public Long getId() {
 		return id;
 	}
@@ -71,12 +89,12 @@ public class Diet {
 		this.date = date;
 	}
 
-	public String getMealType() {
-		return mealType;
+	public MealType getType() {
+		return type;
 	}
 
-	public void setMealType(String mealType) {
-		this.mealType = mealType;
+	public void setMealType(MealType type) {
+		this.type = type;
 	}
 
 	public double getServings() {
@@ -138,6 +156,7 @@ public class Diet {
 	@ManyToOne
     private FoodItem foodItem;
 
-    @ManyToOne
-    private Users user;
+	 @ManyToOne(optional = false)
+	 @JoinColumn(name = "user_id")
+	    private Users user;
 }
