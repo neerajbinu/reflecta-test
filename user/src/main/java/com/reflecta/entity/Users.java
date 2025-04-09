@@ -144,15 +144,23 @@ public class Users {
 	}
 	
 	
-
+	
 	@Override
 	public String toString() {
-		return "Users [id=" + id + ", name=" + name + ", email=" + email + ", dateOfBirth=" + dateOfBirth + ", age="
-				+ age + ", gender=" + gender + ", height=" + height + ", weight=" + weight + ", exerciseDataList="
-				+ exerciseDataList + ", dietList=" + dietList + ", sleepList=" + sleepList + ", moods=" + moods
-				+ ", journalEntryList=" + journalEntryList + ", mentalHealthAlertList=" + mentalHealthAlertList
-				+ ", goals=" + goals + "]";
+	    return "Users [id=" + id + ", name=" + name + ", email=" + email + ", dateOfBirth=" + dateOfBirth + 
+	           ", age=" + age + ", gender=" + gender + ", height=" + height + ", weight=" + weight + "]";
 	}
+	
+	
+	
+//	@Override -- commented out because accessing lazy in toString() won't give the output as the transaction will be closed
+//	public String toString() {
+//		return "Users [id=" + id + ", name=" + name + ", email=" + email + ", dateOfBirth=" + dateOfBirth + ", age="
+//				+ age + ", gender=" + gender + ", height=" + height + ", weight=" + weight + ", exerciseDataList="
+//				+ exerciseDataList + ", dietList=" + dietList + ", sleepList=" + sleepList + ", moods=" + moods
+//				+ ", journalEntryList=" + journalEntryList + ", mentalHealthAlertList=" + mentalHealthAlertList
+//				+ ", goals=" + goals + "]";
+//	}
 	
 
 	public Users(Long id, String name, String email, LocalDate dateOfBirth, int age, String gender, double height,
