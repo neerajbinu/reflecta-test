@@ -1,4 +1,4 @@
-package com.reflecta.enums.sleep;
+package com.reflecta.enums;
 
 public enum SleepQuality {
 	

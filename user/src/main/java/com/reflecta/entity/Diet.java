@@ -2,8 +2,8 @@ package com.reflecta.entity;
 
 import java.time.LocalDate;
 
-import com.reflecta.enums.diet.MealType;
-import com.reflecta.enums.goal.GoalType;
+import com.reflecta.enums.GoalType;
+import com.reflecta.enums.MealType;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -159,4 +159,10 @@ public class Diet {
 	 @ManyToOne(optional = false)
 	 @JoinColumn(name = "user_id")
 	    private Users user;
+	 
+	//added for creating a relation to implement Goal
+	 @ManyToOne
+	 @JoinColumn(name = "goal_id")
+	 private Goal goal;
+
 }

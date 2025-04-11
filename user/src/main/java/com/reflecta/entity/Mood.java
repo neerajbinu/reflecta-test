@@ -95,6 +95,12 @@ import lombok.Data;
 		@ManyToOne(optional = false)
 		    @JoinColumn(name = "user_id")
 		    private Users user;
+		
+		
+		 //added for creating a relation to implement Goal
+		 @ManyToOne
+		 @JoinColumn(name = "goal_id")
+		 private Goal goal;
 }
 
 

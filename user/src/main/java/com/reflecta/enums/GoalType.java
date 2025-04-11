@@ -1,6 +1,6 @@
 // File: GoalType.java
-package com.reflecta.enums.goal;
+package com.reflecta.enums;
 
 public enum GoalType {
-    EXERCISE, MEDITATION, SLEEP, DIET, GENERAL
+    EXERCISE, MEDITATION, SLEEP, DIET
 }

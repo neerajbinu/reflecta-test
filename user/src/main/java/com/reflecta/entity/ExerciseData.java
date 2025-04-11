@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.reflecta.enums.ExerciseType;
+
 @Entity
 //@Data
 @Table(name = "excercisedata") 
@@ -13,14 +16,14 @@ public class ExerciseData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDate date;
-    private String exerciseType;
+    private ExerciseType exerciseType;
     private double durationMinutes;
     private double caloriesBurned;
     
  // --- Constructors ---
 
     public ExerciseData() {}
-    public ExerciseData(Long id, LocalDate date, String exerciseType, double durationMinutes, double caloriesBurned,
+    public ExerciseData(Long id, LocalDate date, ExerciseType exerciseType, double durationMinutes, double caloriesBurned,
 			Users user) {
 		super();
 		this.id = id;
@@ -63,11 +66,11 @@ public class ExerciseData {
 		this.date = date;
 	}
 
-	public String getExerciseType() {
+	public ExerciseType getExerciseType() {
 		return exerciseType;
 	}
 
-	public void setExerciseType(String exerciseType) {
+	public void setExerciseType(ExerciseType exerciseType) {
 		this.exerciseType = exerciseType;
 	}
 
@@ -94,8 +97,27 @@ public class ExerciseData {
 	public void setUser(Users user) {
 		this.user = user;
 	}
+	public Goal getGoal() {
+        return goal;
+    }
+
+    public void setGoal(Goal goal) {
+        this.goal = goal;
+    }
+
 
 	 @ManyToOne(optional = false)
 	 @JoinColumn(name = "user_id")
+	 @JsonIgnore
 	    private Users user;
+	 
+	 //added for creating a relation to implement Goal
+	 @ManyToOne
+	 @JoinColumn(name = "goal_id")
+	 private Goal goal;
+
+	 //For ENUM to run, delete the ExerciseData table(data is stored as ordinal numbers) and try again...However it won't be a problem as
+	 //it will be fetched as a String
+//	 @Enumerated(EnumType.STRING)
+//	 private ExerciseType exerciseType;
 }

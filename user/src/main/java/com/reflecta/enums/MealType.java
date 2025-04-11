@@ -1,4 +1,4 @@
-package com.reflecta.enums.diet;
+package com.reflecta.enums;
 
 public enum MealType {
 	BREAKFAST,
