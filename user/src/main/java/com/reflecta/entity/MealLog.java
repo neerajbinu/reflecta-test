@@ -4,7 +4,7 @@ package com.reflecta.entity;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.reflecta.enums.goal.GoalType;
+import com.reflecta.enums.GoalType;
 import com.reflecta.enums.mealLog.MealType;
 
 import jakarta.persistence.Entity;

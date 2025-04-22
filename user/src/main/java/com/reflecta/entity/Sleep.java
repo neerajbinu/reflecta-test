@@ -1,11 +1,20 @@
 package com.reflecta.entity;
 
-import jakarta.persistence.*;
-import lombok.Data;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import com.reflecta.enums.sleep.SleepQuality;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.reflecta.enums.SleepQuality;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 
 
@@ -121,5 +130,11 @@ public class Sleep {
 
 	@ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
+	@JsonIgnore
     private Users user;
+	
+	 //added for creating a relation to implement Goal
+	 @ManyToOne
+	 @JoinColumn(name = "goal_id")
+	 private Goal goal;
 }

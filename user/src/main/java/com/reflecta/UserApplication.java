@@ -22,8 +22,8 @@ import com.reflecta.entity.Goal;
 import com.reflecta.entity.Mood;
 import com.reflecta.entity.Sleep;
 import com.reflecta.entity.Users;
-import com.reflecta.enums.goal.Frequency;
-import com.reflecta.enums.goal.GoalType;
+import com.reflecta.enums.Frequency;
+import com.reflecta.enums.GoalType;
 
 @SpringBootApplication
 public class UserApplication {

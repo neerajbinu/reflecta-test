@@ -1,8 +1,8 @@
 package com.reflecta.entity;
 import java.time.LocalDate;
 
-import com.reflecta.enums.goal.Frequency;
-import com.reflecta.enums.goal.GoalType;
+import com.reflecta.enums.Frequency;
+import com.reflecta.enums.GoalType;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

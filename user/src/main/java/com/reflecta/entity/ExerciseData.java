@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.reflecta.enums.ExerciseType;
+
 @Entity
 //@Data
 @Table(name = "excercisedata") 
@@ -13,22 +16,49 @@ public class ExerciseData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDate date;
-    private String exerciseType;
+    private ExerciseType exerciseType;
     private double durationMinutes;
     private double caloriesBurned;
     
+    //for Strava API Integration
+    private String source; 			//source - if it is Manual or Strava
+    private String stravaActivityId; //activityId of the Strava application
+    
+    
+    @ManyToOne(optional = false)
+	 @JoinColumn(name = "user_id")
+	 @JsonIgnore
+	    private Users user;
+	 
+	 //added for creating a relation to implement Goal
+	 @ManyToOne
+	 @JoinColumn(name = "goal_id")
+	 private Goal goal;
+
+	 //For ENUM to run, delete the ExerciseData table(data is stored as ordinal numbers) and try again...However it won't be a problem as
+	 //it will be fetched as a String
+//	 @Enumerated(EnumType.STRING)
+//	 private ExerciseType exerciseType;
+    
+    
  // --- Constructors ---
 
-    public ExerciseData() {}
-    public ExerciseData(Long id, LocalDate date, String exerciseType, double durationMinutes, double caloriesBurned,
-			Users user) {
-		super();
+
+	public ExerciseData() {}
+    
+    
+    public ExerciseData(Long id, LocalDate date, ExerciseType exerciseType, double durationMinutes, double caloriesBurned, String source,
+		String stravaActivityId	,Users user) {
+		
+    	super();
 		this.id = id;
 		this.date = date;
 		this.exerciseType = exerciseType;
 		this.durationMinutes = durationMinutes;
 		this.caloriesBurned = caloriesBurned;
-		this.user = user;
+		this.source=source;
+		this.stravaActivityId=stravaActivityId;
+		this.user = user;	
 	}
 
 	// --- toString ---
@@ -63,11 +93,11 @@ public class ExerciseData {
 		this.date = date;
 	}
 
-	public String getExerciseType() {
+	public ExerciseType getExerciseType() {
 		return exerciseType;
 	}
 
-	public void setExerciseType(String exerciseType) {
+	public void setExerciseType(ExerciseType exerciseType) {
 		this.exerciseType = exerciseType;
 	}
 
@@ -94,8 +124,34 @@ public class ExerciseData {
 	public void setUser(Users user) {
 		this.user = user;
 	}
+	public Goal getGoal() {
+        return goal;
+    }
 
-	 @ManyToOne(optional = false)
-	 @JoinColumn(name = "user_id")
-	    private Users user;
+    public void setGoal(Goal goal) {
+        this.goal = goal;
+    }
+    
+
+    public String getSource() {
+		return source;
+	}
+
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+
+
+	public String getStravaActivityId() {
+		return stravaActivityId;
+	}
+
+
+	public void setStravaActivityId(String stravaActivityId) {
+		this.stravaActivityId = stravaActivityId;
+	}
+
+
+
 }
