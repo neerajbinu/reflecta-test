@@ -16,7 +16,7 @@ public class SleepSession {
     private LocalTime sleepStartTime;
     private LocalTime sleepEndTime;
     private double durationHours;
-    private int disturbances;
+    private int disturbances =0; //each disturbances will be counted later...now it's just a 0 or 1 value
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

@@ -7,7 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import com.reflecta.repository.DietRepository;
+import com.reflecta.repository.MealLogRepository;
 import com.reflecta.repository.ExerciseDataRepository;
 import com.reflecta.repository.GoalRepository;
 import com.reflecta.repository.MoodRepository;
@@ -16,7 +16,7 @@ import com.reflecta.repository.UsersRepository;
 
 import jakarta.transaction.Transactional;
 
-import com.reflecta.entity.Diet;
+import com.reflecta.entity.MealLog;
 import com.reflecta.entity.ExerciseData;
 import com.reflecta.entity.Goal;
 import com.reflecta.entity.Mood;

@@ -1,3 +1,4 @@
+//Users.java
 package com.reflecta.entity;
 
 import jakarta.persistence.*;
@@ -95,11 +96,11 @@ public class Users {
 		this.exerciseDataList = exerciseDataList;
 	}
 
-	public List<Diet> getDietList() {
+	public List<MealLog> getDietList() {
 		return dietList;
 	}
 
-	public void setDietList(List<Diet> dietList) {
+	public void setDietList(List<MealLog> dietList) {
 		this.dietList = dietList;
 	}
 
@@ -172,7 +173,7 @@ public class Users {
 	
 
 	public Users(Long id, String name, String email, LocalDate dateOfBirth, int age, String gender, double height,
-			double weight, List<ExerciseData> exerciseDataList, List<Diet> dietList, List<Sleep> sleepList,
+			double weight, List<ExerciseData> exerciseDataList, List<MealLog> dietList, List<Sleep> sleepList,
 			List<Mood> moods, List<JournalEntry> journalEntryList, List<MentalHealthAlert> mentalHealthAlertList,
 			List<Goal> goals, List<WaterIntake> waterIntakeList) {
 		super();
@@ -201,7 +202,7 @@ public class Users {
 
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Diet> dietList;
+    private List<MealLog> dietList;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Sleep> sleepList;
