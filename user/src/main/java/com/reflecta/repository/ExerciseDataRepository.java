@@ -22,5 +22,7 @@ public interface ExerciseDataRepository extends JpaRepository<ExerciseData, Long
 
     // Get all exercises by user and exerciseType
     List<ExerciseData> findByUserAndExerciseType(Users user,ExerciseType exerciseType);
+
+	boolean existsByStravaActivityId(String string); //method added for Strava
 	
 }

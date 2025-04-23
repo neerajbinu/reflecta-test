@@ -30,4 +30,6 @@ public interface FoodService {
     Map<String, Double> getUserAverageNutrition(Long userId, int days);
     List<MealLog> getRecentMeals(Long userId, int limit);
     Map<String, Integer> getFoodConsumptionCount(Long userId);
+//	MealLog logMeal(Long userId, Long foodItemId, double servings, com.reflecta.enums.mealLog.MealType mealType,
+//			LocalDate date);
 }
