@@ -3,7 +3,7 @@ package com.reflecta.entity;
 import java.time.LocalDate;
 
 import com.reflecta.enums.GoalType;
-import com.reflecta.enums.MealType;
+import com.reflecta.enums.mealLog.MealType;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

@@ -9,5 +9,6 @@ public enum ExerciseType {
 	    RUNNING,
 	    CYCLING,
 	    SWIMMING,
-	    ZUMBA	
+	    ZUMBA,
+	    OTHER	
 }

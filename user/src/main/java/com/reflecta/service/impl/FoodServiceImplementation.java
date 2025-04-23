@@ -256,4 +256,6 @@ public class FoodServiceImplementation implements FoodService {
                 Collectors.summingInt(meal -> 1)
             ));
     }
+
+	
 }
