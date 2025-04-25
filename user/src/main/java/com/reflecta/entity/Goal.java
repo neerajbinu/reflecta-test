@@ -1,7 +1,9 @@
 package com.reflecta.entity;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.reflecta.enums.Frequency;
+import com.reflecta.enums.GoalStatus;
 import com.reflecta.enums.GoalType;
 
 import jakarta.persistence.Entity;
@@ -27,12 +29,16 @@ public class Goal {
 
     @Enumerated(EnumType.STRING)
     private Frequency frequency;
-
-    private double targetHours;
+    
+    @Enumerated(EnumType.STRING)
+    private GoalStatus status;
+    
+   
+	private double targetHours;
     private double currentProgress;
     private LocalDate startDate;
     private LocalDate endDate;
-    private String status;
+   
 
  // --- Getters & Setters --
     
@@ -104,18 +110,17 @@ public class Goal {
 	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
-
-
-	public String getStatus() {
+	
+	public GoalStatus getStatus()
+	{
 		return status;
 	}
-
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-
+	
+	public void setStatus(GoalStatus status) {
+			this.status = status;
+		}
+	  
+	  
 	public Users getUser() {
 		return user;
 	}
@@ -137,7 +142,7 @@ public class Goal {
 	// --- Constructors ---
 	
 	public Goal(Long id, GoalType type, Frequency frequency, double targetHours, double currentProgress,
-			LocalDate startDate, LocalDate endDate, String status, Users user) {
+			LocalDate startDate, LocalDate endDate, GoalStatus status, Users user) {
 		super();
 		this.id = id;
 		this.type = type;
@@ -155,7 +160,13 @@ public class Goal {
 
 	 @ManyToOne(optional = false)
 	 @JoinColumn(name = "user_id")
+	 @JsonIgnore
 	    private Users user;
+	 
+	 
+	 
+	 
+	 
 }
 
 
