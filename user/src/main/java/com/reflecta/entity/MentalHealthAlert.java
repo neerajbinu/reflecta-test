@@ -44,11 +44,6 @@ public class MentalHealthAlert {
 	public String toString() {
 		return "MentalHealthAlert [id=" + id + ", date=" + date + ", message=" + message + ", counsellorName="
 				+ counsellorName + ", counsellorPhone=" + counsellorPhone + "]";
-//		, user=" + user + ", getId()=" + getId()
-//				+ ", getDate()=" + getDate() + ", getMessage()=" + getMessage() + ", getCounsellorName()="
-//				+ getCounsellorName() + ", getCounsellorPhone()=" + getCounsellorPhone() + ", getUser()=" + getUser()
-//				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
-//				+ "]";
 	}
 	
 	// --- Getters & Setters --
