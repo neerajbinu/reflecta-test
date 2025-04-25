@@ -10,9 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.reflecta.dto.SleepSummaryDTO;
+import com.reflecta.entity.Goal;
 import com.reflecta.entity.Sleep;
 import com.reflecta.entity.SleepSession;
 import com.reflecta.entity.Users;
+import com.reflecta.enums.GoalStatus;
+import com.reflecta.enums.GoalType;
+import com.reflecta.enums.SleepQuality;
+import com.reflecta.repository.GoalRepository;
 import com.reflecta.repository.SleepRepository;
 import com.reflecta.repository.SleepSessionRepository;
 import com.reflecta.service.SleepService;
@@ -33,43 +38,48 @@ public class SleepSessionServiceImplementation implements SleepSessionService {
 
     @Autowired
     private SleepRepository sleepRepository;
+    
+    @Autowired
+    private GoalRepository goalRepository;
 
-    // Start a new sleep session
+    // Start a new sleep session and update it in the Goal
     @Override
     public String startSleep(Long userId) {
         Users user = userService.getUserById(userId);
-
-        // Check if Sleep entry exists for today
+       
+        // Fetch today's sleep record, if it exists
         LocalDate today = LocalDate.now();
-        Optional<Sleep> optionalSleep = sleepRepository.findByUserIdAndDate(userId, today);
-
+        List<Sleep> sleepList = sleepRepository.findByUserIdAndDate(userId, today);
         Sleep sleep;
         boolean isDisturbance = false;
 
-        if (optionalSleep.isPresent()) {
-            sleep = optionalSleep.get();
-            isDisturbance = true; // More than one session = disturbance
+        // If there's already a sleep record for today, mark it as disturbed (multiple sessions)
+        if (!sleepList.isEmpty()) {
+            sleep = sleepList.get(0); // Take the first sleep record
+            isDisturbance = true;
         } else {
             sleep = new Sleep();
+            // If no sleep record for today, create one
             sleep.setUser(user);
             sleep.setDate(today);
             sleepRepository.save(sleep);
         }
-
+     
+        // Create and save the sleep session
         SleepSession session = new SleepSession();
         session.setUser(user);
         session.setSleepStartTime(LocalTime.now());
         session.setSleepEndTime(null);
         session.setDurationHours(0);
         session.setSleep(sleep);
-        session.setDisturbances(isDisturbance ? 1 : 0); // Set disturbance here
+        session.setDisturbances(isDisturbance ? 1 : 0); // Initial disturbance if multiple sessions
 
         sleepSessionRepository.save(session);
-
         return "Sleep session started.";
     }
 
-    // End the latest sleep session and calculate everything
+    
+    // End the latest sleep session
     @Override
     public String endSleep(Long userId) {
         Optional<SleepSession> latestSessionOpt = sleepSessionRepository
@@ -87,55 +97,74 @@ public class SleepSessionServiceImplementation implements SleepSessionService {
         double hours = duration.toMinutes() / 60.0;
         session.setDurationHours(hours);
 
-        // Save updated session
+        // Save session
         sleepSessionRepository.save(session);
 
-        // Get associated Sleep record (summary)
+        // Update the parent Sleep record
         Sleep sleep = session.getSleep();
-
-        // Get all sessions for this sleep record (same day/user)
         List<SleepSession> allSessions = sleepSessionRepository.findBySleep(sleep);
 
-        // Calculate total duration and disturbances
         double totalDuration = allSessions.stream()
                 .mapToDouble(SleepSession::getDurationHours)
                 .sum();
 
-        int totalDisturbances = Math.max(0, allSessions.size() - 1); // First session doesn't count as disturbance
+        int totalDisturbances = Math.max(0, allSessions.size() - 1); // First session normal
 
-        // Update sleep summary
         sleep.setDurationHours(totalDuration);
         sleep.setSleepQuality(sleepService.estimateSleepQuality(totalDuration, totalDisturbances));
 
         sleepRepository.save(sleep);
 
+        // Update SLEEP goal progress if goal exists
+        LocalDate today = LocalDate.now(); 
+        Optional<Goal> goalOpt = goalRepository.findByUserIdAndTypeAndStatusAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
+                userId, GoalType.SLEEP, GoalStatus.ONGOING, today, today
+        );
+
+        if (goalOpt.isPresent()) {
+            Goal goal = goalOpt.get();
+            goal.setCurrentProgress(goal.getCurrentProgress() + hours);
+
+            // Mark goal as completed if target met or exceeded
+            if (goal.getCurrentProgress() >= goal.getTargetHours()) {
+                goal.setStatus(GoalStatus.COMPLETED);
+            }
+
+            goalRepository.save(goal);
+        }
+
         return "Sleep session ended. Total Duration: " + totalDuration + " hrs. Total Disturbances: " + totalDisturbances;
     }
 
+    // Updated to support multiple Sleep records for same user-date
     @Override
     public SleepSummaryDTO getDailySummary(Long userId, LocalDate date) {
-        Optional<Sleep> sleepOpt = sleepRepository.findByUserIdAndDate(userId, date);
+        List<Sleep> sleepList = sleepRepository.findByUserIdAndDate(userId, date);
 
-        if (sleepOpt.isPresent()) {
-            Sleep sleep = sleepOpt.get();
-            List<SleepSession> sessions = sleepSessionRepository.findBySleep(sleep);
-
-            double totalDuration = sessions.stream()
-                    .mapToDouble(SleepSession::getDurationHours)
-                    .sum();
-
-            int disturbances = Math.max(0, sessions.size() - 1); // First session is normal
-
-            return new SleepSummaryDTO(
-                    sleep.getId(),
-                    sleep.getDate(),
-                    totalDuration,
-                    disturbances,
-                    sleep.getSleepQuality()  
-            );
-            		
+        if (sleepList.isEmpty()) {
+            return null; // No data
         }
 
-        return null; // Or throw custom exception
+        double totalDuration = 0.0;
+        int totalDisturbances = 0;
+
+        for (Sleep sleep : sleepList) {
+            List<SleepSession> sessions = sleepSessionRepository.findBySleep(sleep);
+            totalDuration += sessions.stream()
+                    .mapToDouble(SleepSession::getDurationHours)
+                    .sum();
+            totalDisturbances += Math.max(0, sessions.size() - 1); // First session is normal
+        }
+
+        SleepQuality sleepQuality = sleepService.estimateSleepQuality(totalDuration, totalDisturbances);
+
+
+        return new SleepSummaryDTO(
+                null, // No single sleep ID to represent all records
+                date,
+                totalDuration,
+                totalDisturbances,
+                sleepQuality
+        );
     }
 }

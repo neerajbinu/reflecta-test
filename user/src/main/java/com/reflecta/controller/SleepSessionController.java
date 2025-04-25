@@ -49,7 +49,7 @@ public class SleepSessionController {
 
 	    // Get daily sleep summary
 	    @GetMapping("/summary/{userId}")
-	    public Sleep getDailySummary(
+	    public List<Sleep> getDailySummary(
 	            @PathVariable Long userId,
 	            @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
 	        return sleepService.getDailySleepSummary(userId, date);

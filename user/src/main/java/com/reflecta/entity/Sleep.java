@@ -41,6 +41,7 @@ public class Sleep {
 		return id;
 	}
 
+
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -93,6 +94,14 @@ public class Sleep {
 	public void setSleepQuality(SleepQuality sleepQuality) {
 		this.sleepQuality = sleepQuality;
 	}
+	
+	public Goal getGoal() {
+		return goal;
+	}
+
+	public void setGoal(Goal goal) {
+		this.goal = goal;
+	}
 
 	// --- Constructors ---
 	
@@ -100,7 +109,7 @@ public class Sleep {
 	public Sleep() {}
 
 	public Sleep(Long id, LocalDate date, LocalTime sleepStartTime, LocalTime sleepEndTime, double durationHours,
-			SleepQuality sleepQuality, Users user) {
+			SleepQuality sleepQuality, Users user,Goal goal) {
 		super();
 		this.id = id;
 		this.date = date;
@@ -109,6 +118,7 @@ public class Sleep {
 		this.durationHours = durationHours;
 		this.sleepQuality = sleepQuality;
 		this.user = user;
+		this.goal=goal;
 	}
 
 	// --- toString ---
@@ -136,5 +146,6 @@ public class Sleep {
 	 //added for creating a relation to implement Goal
 	 @ManyToOne
 	 @JoinColumn(name = "goal_id")
+	 @JsonIgnore
 	 private Goal goal;
 }

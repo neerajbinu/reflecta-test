@@ -45,12 +45,15 @@ public class SleepServiceImplementation implements SleepService {
 	    
 	    // Method to get daily sleep summary for a user
 	  @Override
-	    public Sleep getDailySleepSummary(Long userId, LocalDate date) {
-	        Optional<Sleep> sleepOpt = sleepRepository.findByUserIdAndDate(userId, date);
-	        if (sleepOpt.isPresent()) {
-	            return sleepOpt.get();
-	        }
-	        return null; // return null if no sleep record exists for that user and date
+	    public List<Sleep> getDailySleepSummary(Long userId, LocalDate date) {
+//	        Optional<Sleep> sleepOpt = sleepRepository.findByUserIdAndDate(userId, date);
+//	        if (sleepOpt.isPresent()) {
+//	            return sleepOpt.get();
+//	        }
+//	        return null; // return null if no sleep record exists for that user and date
+		  
+		  List<Sleep>sleepList=sleepRepository.findByUserIdAndDate(userId, date);
+		  return sleepList;
 	    }
 
 	    // Method to calculate the total sleep duration for a user in a given day
