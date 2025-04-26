@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="src" path="user/src/main/java"/>
-	<classpathentry kind="src" path="user/src/test/java"/>
-	<classpathentry kind="lib" path="user/target/user-0.0.1-SNAPSHOT.jar"/>
-	<classpathentry kind="output" path="user/target/classes"/>
-</classpath>
