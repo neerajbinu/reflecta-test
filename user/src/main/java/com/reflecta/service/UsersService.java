@@ -10,4 +10,6 @@ public interface UsersService {
     List<Users> getAllUsers();
     Users updateUser(Long id, Users user);
     void deleteUser(Long id);
+	double calculateBMR(Users user);
+	Double getActivityMultiplier(Users user);
 }

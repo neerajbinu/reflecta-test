@@ -3,8 +3,10 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.reflecta.enums.Frequency;
+import com.reflecta.enums.GoalMetric;
 import com.reflecta.enums.GoalStatus;
 import com.reflecta.enums.GoalType;
+import com.reflecta.enums.WeightGoal;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -16,8 +18,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-@Entity
-//@Data  
+@Entity 
 @Table(name = "goal") 
 public class Goal {
     @Id
@@ -33,8 +34,13 @@ public class Goal {
     @Enumerated(EnumType.STRING)
     private GoalStatus status;
     
+    @Enumerated(EnumType.STRING)
+    private GoalMetric metric;
    
-	private double targetHours;
+    @Enumerated(EnumType.STRING)
+    private WeightGoal weightGoal;
+    
+	private double target; //unified target for tracking all of the entities
     private double currentProgress;
     private LocalDate startDate;
     private LocalDate endDate;
@@ -69,16 +75,6 @@ public class Goal {
 
 	public void setFrequency(Frequency frequency) {
 		this.frequency = frequency;
-	}
-
-
-	public double getTargetHours() {
-		return targetHours;
-	}
-
-
-	public void setTargetHours(double targetHours) {
-		this.targetHours = targetHours;
 	}
 
 
@@ -120,7 +116,18 @@ public class Goal {
 			this.status = status;
 		}
 	  
-	  
+	
+	public GoalMetric getMetric() {
+		return metric;
+	}
+
+
+	public void setMetric(GoalMetric metric) {
+		this.metric = metric;
+	}
+	
+
+
 	public Users getUser() {
 		return user;
 	}
@@ -128,12 +135,21 @@ public class Goal {
 	public void setUser(Users user) {
 		this.user = user;
 	}
+	
+	public WeightGoal getWeightGoal() {
+		return weightGoal;
+	}
+
+
+	public void setWeightGoal(WeightGoal weightGoal) {
+		this.weightGoal = weightGoal;
+	}
 
 	// --- toString ---
 
 	@Override
 	public String toString() {
-		return "Goal [id=" + id + ", type=" + type + ", frequency=" + frequency + ", targetHours=" + targetHours
+		return "Goal [id=" + id + ", type=" + type + ", frequency=" + frequency + ", target=" + target
 				+ ", currentProgress=" + currentProgress + ", startDate=" + startDate + ", endDate=" + endDate
 				+ ", status=" + status + "]";
 		//, user=" + user + "]";
@@ -141,31 +157,39 @@ public class Goal {
 	
 	// --- Constructors ---
 	
-	public Goal(Long id, GoalType type, Frequency frequency, double targetHours, double currentProgress,
-			LocalDate startDate, LocalDate endDate, GoalStatus status, Users user) {
+	public Goal(Long id, GoalType type, Frequency frequency, double target, double currentProgress,
+			LocalDate startDate, LocalDate endDate, GoalStatus status, GoalMetric metric, WeightGoal weightGoal,Users user) {
 		super();
 		this.id = id;
 		this.type = type;
 		this.frequency = frequency;
-		this.targetHours = targetHours;
+		this.target=target;
 		this.currentProgress = currentProgress;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.status = status;
+		this.metric=metric;
+		this.weightGoal=weightGoal;
 		this.user = user;
 	}
 	
 	public Goal() {}
 
 
-	 @ManyToOne(optional = false)
+	 public double getTarget() {
+		return target;
+	}
+
+
+	public void setTarget(double target) {
+		this.target = target;
+	}
+
+
+	@ManyToOne(optional = false)
 	 @JoinColumn(name = "user_id")
 	 @JsonIgnore
-	    private Users user;
-	 
-	 
-	 
-	 
+	    private Users user; 
 	 
 }
 
