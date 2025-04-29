@@ -5,6 +5,8 @@ import com.reflecta.dto.ExerciseDataResponseDTO;
 import com.reflecta.entity.ExerciseData;
 import com.reflecta.entity.Goal;
 import com.reflecta.entity.Users;
+import com.reflecta.enums.GoalStatus;
+import com.reflecta.enums.GoalMetric;
 import com.reflecta.enums.GoalType;
 import com.reflecta.repository.ExerciseDataRepository;
 import com.reflecta.repository.GoalRepository;
@@ -30,6 +32,7 @@ public class ExerciseDataServiceImplementation implements ExerciseDataService {
 
     @Override
     public String saveExerciseData(ExerciseDataRequestDTO dto) {
+
         Users user = userRepository.findById(dto.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -42,19 +45,35 @@ public class ExerciseDataServiceImplementation implements ExerciseDataService {
 
         String message = "Exercise logged successfully.";
 
-        if (dto.getGoalId() != null) {
-            Goal goal = goalRepository.findById(dto.getGoalId())
-                    .orElseThrow(() -> new RuntimeException("Goal not found"));
+        // Automatically fetch the active EXERCISE goal
+        Goal goal = goalRepository
+                .findByUserAndTypeAndStatus(user, GoalType.EXERCISE, GoalStatus.ONGOING)
+                .orElse(null);
 
-            if (!goal.getType().equals(GoalType.EXERCISE)) {
-                throw new IllegalArgumentException("Goal type mismatch. Expected EXERCISE goal.");
+        if (goal != null) {
+            if (goal.getMetric() == null) {
+                throw new IllegalArgumentException("Goal metric not specified.");
             }
 
-            goal.setCurrentProgress(goal.getCurrentProgress() + dto.getDurationMinutes());
-            goalRepository.save(goal);
+            // Only consider CALORIES_BURNED for exercise goals
+            if (goal.getMetric() == GoalMetric.CALORIES_BURNED) {
+                goal.setCurrentProgress(goal.getCurrentProgress() + dto.getCaloriesBurned());
+            } else {
+                throw new IllegalArgumentException("Unsupported metric type for exercise goal.");
+            }
 
+            // Check if the goal has been completed
+            if (goal.getCurrentProgress() >= goal.getTarget()) {
+                goal.setStatus(GoalStatus.COMPLETED);
+            }
+
+            goalRepository.save(goal);
             data.setGoal(goal);
-            message = "Exercise logged and progress added to your goal.";
+
+            double percentage = ((double) goal.getCurrentProgress() / goal.getTarget()) * 100;
+            message = String.format("Exercise logged. Goal progress: %.2f%%. %s",
+                    percentage,
+                    goal.getStatus().equals(GoalStatus.COMPLETED) ? "Goal completed!" : "Keep going!");
         }
 
         exerciseDataRepository.save(data);

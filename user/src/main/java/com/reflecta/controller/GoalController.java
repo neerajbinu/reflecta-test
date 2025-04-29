@@ -28,6 +28,12 @@ public class GoalController {
            Goal savedGoal= gs.createGoal(userId,goalRequestDTO);
             return new ResponseEntity<Goal>(savedGoal,HttpStatus.CREATED);
 }
+	@PostMapping("/{userId}/create/diet")
+	public ResponseEntity<Goal> createDietGoal(@PathVariable Long userId, @RequestBody GoalRequestDTO goalRequestDTO) {
+           Goal savedGoal= gs.createDietGoal(userId,goalRequestDTO);
+            return new ResponseEntity<Goal>(savedGoal,HttpStatus.CREATED);
+}
+	
 	@GetMapping("/{userId}")
     public ResponseEntity<List<Goal>> getGoalsByUser(@PathVariable Long userId) {
         List<Goal> goals = gs.getGoalsByUser(userId);

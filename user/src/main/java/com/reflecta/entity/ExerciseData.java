@@ -1,14 +1,12 @@
 package com.reflecta.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.reflecta.enums.ExerciseType;
 
 @Entity
-//@Data
 @Table(name = "excercisedata") 
 
 public class ExerciseData {
@@ -16,7 +14,11 @@ public class ExerciseData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDate date;
+    
+    @Enumerated(EnumType.STRING)
     private ExerciseType exerciseType;
+    
+    
     private double durationMinutes;
     private double caloriesBurned;
     
@@ -151,7 +153,5 @@ public class ExerciseData {
 	public void setStravaActivityId(String stravaActivityId) {
 		this.stravaActivityId = stravaActivityId;
 	}
-
-
 
 }
