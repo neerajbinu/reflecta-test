@@ -38,13 +38,7 @@ public class DailySummary {
 			return "DailySummary [id=" + id + ", date=" + date + ", totalSteps=" + totalSteps + ", totalCaloriesBurned="
 					+ totalCaloriesBurned + ", totalCaloriesConsumed=" + totalCaloriesConsumed + ", sleepHours="
 					+ sleepHours + ", moodStatus=" + moodStatus + "]";
-//			, user=" + user + ", getId()=" + getId()
-//					+ ", getDate()=" + getDate() + ", getTotalSteps()=" + getTotalSteps()
-//					+ ", getTotalCaloriesBurned()=" + getTotalCaloriesBurned() + ", getTotalCaloriesConsumed()="
-//					+ getTotalCaloriesConsumed() + ", getSleepHours()=" + getSleepHours() + ", getMoodStatus()="
-//					+ getMoodStatus() + ", getUser()=" + getUser() + ", getClass()=" + getClass() + ", hashCode()="
-//					+ hashCode() + ", toString()=" + super.toString() + "]";
-		}
+	}
 
 	 // --- Getters & Setters --
 	    
