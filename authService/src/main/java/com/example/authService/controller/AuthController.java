@@ -30,22 +30,31 @@ public class AuthController {
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {
             return ResponseEntity.badRequest().body("Username already exists");
         }
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            return ResponseEntity.badRequest().body("Email already exists");
+        }
 
-        User user = new User(request.getUsername(), passwordEncoder.encode(request.getPassword()));
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail()); // SET EMAIL
+        user.setPassword(passwordEncoder.encode(request.getPassword())); // ENCODE PASSWORD
+
         userRepository.save(user);
 
         return ResponseEntity.ok("User registered successfully");
     }
 
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest request) {
-        Optional<User> user = userRepository.findByUsername(request.getUsername());
+        Optional<User> user = userRepository.findByEmail(request.getEmail());
 
         if (user.isEmpty() || !passwordEncoder.matches(request.getPassword(), user.get().getPassword())) {
-            return ResponseEntity.status(401).body("Invalid username or password");
+            return ResponseEntity.status(401).body("Invalid email or password");
         }
 
         String token = jwtUtil.generateToken(user.get().getUsername());
         return ResponseEntity.ok(new AuthResponse(token));
     }
+
 }
