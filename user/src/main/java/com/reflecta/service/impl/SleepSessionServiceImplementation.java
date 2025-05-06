@@ -106,14 +106,22 @@ public class SleepSessionServiceImplementation implements SleepSessionService {
 
         // Update the parent Sleep record
         Sleep sleep = session.getSleep();
-        List<SleepSession> allSessions = sleepSessionRepository.findBySleep(sleep);
+       
+        
+     // Get all sessions for this sleep record (for this day)
+        //List<SleepSession> allSessions = sleepSessionRepository.findBySleep(sleep);
+        List<SleepSession> allSessions = sleepSessionRepository.findByUserIdAndSleep_Date(userId, sleep.getDate());
 
-        double totalDuration = allSessions.stream()
-                .mapToDouble(SleepSession::getDurationHours)
-                .sum();
 
-        int totalDisturbances = Math.max(0, allSessions.size() - 1); // First session normal
+        double totalDuration = 0.0;
+        for (SleepSession s : allSessions) {
+            totalDuration += s.getDurationHours();
+        }
 
+        // First session is normal, others are counted as disturbances
+        int totalDisturbances = allSessions.size() > 1 ? allSessions.size() - 1 : 0;
+
+        // Save into Sleep (daily summary)
         sleep.setDurationHours(totalDuration);
         sleep.setSleepQuality(sleepService.estimateSleepQuality(totalDuration, totalDisturbances));
         sleepRepository.save(sleep);
@@ -126,7 +134,16 @@ public class SleepSessionServiceImplementation implements SleepSessionService {
 
         if (goalOpt.isPresent()) {
             Goal goal = goalOpt.get();
-            goalService.updateGoalProgress(goal, hours); // <-- Centralized logic
+            List<SleepSession> todaySessions = sleepSessionRepository
+                    .findByUserIdAndSleep_Date(userId, LocalDate.now());
+
+            double todayTotal = 0.0;
+            for (SleepSession s : todaySessions) {
+                todayTotal += s.getDurationHours();
+            }
+
+            goalService.updateGoalProgress(goal, todayTotal);
+
         }
 
         return "Sleep session ended. Total Duration: " + totalDuration + " hrs. Total Disturbances: " + totalDisturbances;

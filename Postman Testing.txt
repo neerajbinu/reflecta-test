@@ -1,0 +1,102 @@
+Creating a new user:
+http://localhost:8081/api/users
+{
+  "name": "Rahul",
+  "email": "rahul@gmail.com",
+  "dateOfBirth": "2002-10-24",
+  "age": 40,
+  "gender": "M",
+  "height": 175,
+  "weight": 80
+}
+
+Creating a new exercise
+http://localhost:8081/api/exercise/user/1
+{
+    "exerciseType": "CARDIO",  
+    "durationMinutes": 30.5,
+    "caloriesBurned": 500,
+    "date": "2025-04-28"
+}
+
+
+Setting a sleep goal
+http://localhost:8081/api/goal/1/create
+{
+  "type": "SLEEP",
+  "frequency": "DAILY",
+  "target": 0.167,
+  "startDate": "2025-04-30",
+  "endDate": "2025-04-30",
+  "metric": "DURATION"
+}
+
+
+Creating an exercise goal associated with a user
+http://localhost:8081/api/goal/1/create
+   {
+        "type": "EXERCISE",
+        "frequency": "DAILY",
+        "status": "ONGOING",
+        "metric": "CALORIES_BURNED",
+        "target": 2300,
+        "currentProgress": 0.0,
+        "startDate": "2025-04-30",
+        "endDate": "2025-04-30"
+    }
+
+Add a food item to the database
+http://localhost:8081/api/food/items
+{
+    "name":"Apple",
+    "caloriesPerServing":105,
+    "protein":1.3,
+    "carbohydrates":27,
+    "fat":0.4,
+    "servingSize":"2",
+    "servingUnit":"fruit"
+}
+
+
+Add a meal log
+http://localhost:8081/api/food/meals/log/1
+{
+        "servings":10,
+        "mealType":"BREAKFAST",
+        "name": "rice"
+}
+
+
+Get the list of goals:
+http://localhost:8081/api/goal/1
+
+
+Adding an exercise
+http://localhost:8081/api/exercise/user/1
+{
+    "exerciseType":"STRENGTH",
+    "durationMinutes": 50,
+    "caloriesBurned": 1000,
+    "date": "2025-04-30"
+
+}
+
+Starting a sleep session
+http://localhost:8081/api/sleep/end/1
+
+Creating a mood
+http://localhost:8081/api/mood/add/1
+{
+        "moodStatus":"NEUTRAL"
+}
+
+
+
+
+
+
+
+
+
+
+

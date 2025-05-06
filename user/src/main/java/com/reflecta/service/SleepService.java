@@ -16,6 +16,8 @@ public interface SleepService {
 	    double calculateTotalSleepDuration(Long userId, LocalDate date);
 
 	    void updateSleepSummary(SleepSession session);
+
+		double calculateWeeklySleepQualityScore(Long userId);
 	    
 	 
 

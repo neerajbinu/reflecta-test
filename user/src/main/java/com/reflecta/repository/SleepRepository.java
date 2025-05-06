@@ -11,5 +11,7 @@ import com.reflecta.entity.Sleep;
 public interface SleepRepository extends JpaRepository<Sleep,Long> {
 	//Optional<Sleep> findByUserIdAndDate(Long userId, LocalDate date);
 	List<Sleep> findByUserIdAndDate(Long userId, LocalDate date); //list because there can be multiple sleep entries in a single date
+
+	List<Sleep> findByUserIdAndDateBetween(Long userId, LocalDate weekAgo, LocalDate today);
 	
 }

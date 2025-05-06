@@ -2,6 +2,7 @@ package com.reflecta.service;
 
 import com.reflecta.entity.MealLog;
 import com.reflecta.enums.mealLog.MealType;
+import com.reflecta.dto.MealLogRequest;
 import com.reflecta.entity.FoodItem;
 
 import java.time.LocalDate;
@@ -16,7 +17,7 @@ public interface FoodService {
     FoodItem addFoodItem(FoodItem foodItem);
     
     // Meal logging operations
-    MealLog logMeal(Long userId, Long foodItemId, double servings, MealType mealType, LocalDate date);
+    MealLog logMeal(Long userId, MealLogRequest request);
     List<MealLog> getUserMealsForDay(Long userId, LocalDate date);
     Map<String, Double> getNutritionSummaryForDay(Long userId, LocalDate date);
     Map<MealType, List<MealLog>> getMealsByTypeForDay(Long userId, LocalDate date);
@@ -32,4 +33,5 @@ public interface FoodService {
     Map<String, Integer> getFoodConsumptionCount(Long userId);
 //	MealLog logMeal(Long userId, Long foodItemId, double servings, com.reflecta.enums.mealLog.MealType mealType,
 //			LocalDate date);
+	
 }

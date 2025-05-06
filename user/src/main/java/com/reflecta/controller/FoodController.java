@@ -1,34 +1,37 @@
 package com.reflecta.controller;
 
-import com.reflecta.entity.MealLog;
-import com.reflecta.entity.FoodItem;
-import com.reflecta.enums.mealLog.MealType;
-import com.reflecta.service.FoodService;
-import com.reflecta.dto.MealLogRequest;
-import com.reflecta.dto.UserMealRequest;
-import com.reflecta.dto.UserJournalRequest;
-import com.reflecta.dto.FrequentFoodRequest;
-import com.reflecta.dto.AverageNutritionRequest;
-import com.reflecta.dto.RecentMealsRequest;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
+import com.reflecta.dto.AverageNutritionRequest;
+import com.reflecta.dto.FrequentFoodRequest;
+import com.reflecta.dto.MealLogRequest;
+import com.reflecta.dto.RecentMealsRequest;
+import com.reflecta.dto.UserMealRequest;
+import com.reflecta.entity.FoodItem;
+import com.reflecta.entity.MealLog;
+import com.reflecta.enums.mealLog.MealType;
+import com.reflecta.service.FoodService;
 
 @RestController
 @RequestMapping("/api/food")
 public class FoodController {
     
-    private final FoodService foodService;
-    
-    @Autowired
-    public FoodController(FoodService foodService) {
-        this.foodService = foodService;
-    }
+	@Autowired
+    private  FoodService foodService;
     
     // Food item endpoints
     @GetMapping("/items")
@@ -52,16 +55,10 @@ public class FoodController {
     }
     
     // Meal logging endpoints
-    @PostMapping("/meals/log")
-    public ResponseEntity<MealLog> logMeal(@RequestBody MealLogRequest request) {
-        MealLog entry = foodService.logMeal(
-            request.getUserId(),
-            request.getFoodItemId(),
-            request.getServings(),
-            request.getMealType(),
-            request.getDate()
-        );
-        return ResponseEntity.status(HttpStatus.CREATED).body(entry);
+    @PostMapping("/meals/log/{userId}")
+    public ResponseEntity<MealLog> logMeal(@PathVariable Long userId,@RequestBody MealLogRequest request) {
+       MealLog loggedMeal=foodService.logMeal(userId,request);
+       return new ResponseEntity<MealLog>(loggedMeal,HttpStatus.CREATED);
     }
     
     @PostMapping("/meals/get")

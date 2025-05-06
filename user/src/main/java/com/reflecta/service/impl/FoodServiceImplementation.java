@@ -5,11 +5,13 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.reflecta.dto.MealLogRequest;
 import com.reflecta.entity.FoodItem;
 import com.reflecta.entity.MealLog;
 import com.reflecta.entity.Users;
@@ -57,28 +59,37 @@ public class FoodServiceImplementation implements FoodService {
         return foodItemRepository.save(foodItem);
     }
     
+    
     // Meal logging operations
     @Override
-    public MealLog logMeal(Long userId, Long foodItemId, double servings, MealType mealType, LocalDate date) {
+    public MealLog logMeal(Long userId,MealLogRequest request) {
         Users user = usersRepository.findById(userId)
             .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
-            
-        FoodItem foodItem = getFoodItemById(foodItemId);
-        
-        MealLog mealLog = new MealLog();
-        mealLog.setUser(user);
-        mealLog.setFoodItem(foodItem);
-        mealLog.setServings(servings);
-        mealLog.setMealType(mealType);
-        mealLog.setDate(date != null ? date : LocalDate.now());
-        
-        // Calculate nutrition totals
-        mealLog.calculateNutritionTotals();
-        
-        return mealLogRepository.save(mealLog);
-    }
+        		MealLog mealLog = new MealLog();
+        	String foodName=request.getName().toUpperCase();
+        	Optional<FoodItem> optionalFoodItem =foodItemRepository.findByNameIgnoreCase(foodName);
+        	if(!optionalFoodItem.isPresent())
+        	{
+        		System.out.println("Food item not present in the database..Add it first...");
+        	}
+        	else
+        	{		
+        			FoodItem foodItem=optionalFoodItem.get();
+//			        MealLog mealLog = new MealLog();
+			        mealLog.setUser(user);
+			        mealLog.setFoodItem(foodItem);
+			        mealLog.setServings(request.getServings());
+			        mealLog.setMealType(request.getMealType());
+			        mealLog.setDate(LocalDate.now());
+			        
+			        // Calculate nutrition totals
+			        mealLog.calculateNutritionTotals();		        
+        	}
+        	return mealLogRepository.save(mealLog);
+    }       	
     
-    @Override
+   
+	@Override
     public List<MealLog> getUserMealsForDay(Long userId, LocalDate date) {
         return mealLogRepository.findByUserIdAndDate(userId, date);
     }
