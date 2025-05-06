@@ -24,7 +24,7 @@ public class WaterIntake {
 
     private Integer totalMl;
 
-    private Integer goalMl = 2000; // Default daily goal 
+    private Integer goalMl = 3000; // Default daily goal 
     
 
 

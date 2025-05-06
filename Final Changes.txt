@@ -1,0 +1,18 @@
+1)separate page for counsellor
+
+2)Change decimal places
+@Column(precision = 5, scale = 2)
+private double durationHours; -- total 5 digits, only two after the decimal
+
+
+3)In Goal Scheduler, There is an optional section (commented out) that could reset the goal’s progress at the end of the day for the next day.
+	// Reset the progress for tomorrow
+        if (goal.getEndDate().isAfter(today)) {
+            // Reset progress for tomorrow
+            goal.setCurrentProgress(0.0);  // Set to 0 for tomorrow's goal
+            goal.setStartDate(tomorrow);  // Update the goal date to tomorrow
+            goalRepository.save(goal);
+        }
+
+
+4) Notifications

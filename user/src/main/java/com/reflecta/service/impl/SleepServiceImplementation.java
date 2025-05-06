@@ -43,7 +43,7 @@ public class SleepServiceImplementation implements SleepService {
 	
 
 	    
-	    // Method to get daily sleep summary for a user
+	  // Method to get daily sleep summary for a user
 	  @Override
 	    public List<Sleep> getDailySleepSummary(Long userId, LocalDate date) {
 //	        Optional<Sleep> sleepOpt = sleepRepository.findByUserIdAndDate(userId, date);
@@ -86,7 +86,25 @@ public class SleepServiceImplementation implements SleepService {
 
 	        sleepRepository.save(sleep);
 	    }
+	  
+	  @Override
+	  public double calculateWeeklySleepQualityScore(Long userId) {
+		  	LocalDate today = LocalDate.now();
+		    LocalDate weekAgo = today.minusDays(6); // 7-day range including today
 
+		    // Fetch  sleep entries
+		    List<Sleep> weeklySleep = sleepRepository.findByUserIdAndDateBetween(userId, weekAgo, today);
+
+
+		    // --- Count days with POOR sleep quality ---
+		    long poorSleepCount = 0;
+		    for (Sleep sleep : weeklySleep) {
+		        if (sleep.getSleepQuality() == SleepQuality.POOR) {
+		            poorSleepCount++;
+		        }
+		    }
+		    return poorSleepCount;
+	  }	    
 }
 
 

@@ -8,10 +8,12 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.reflecta.entity.Goal;
+import com.reflecta.entity.Users;
 import com.reflecta.enums.Frequency;
 import com.reflecta.enums.GoalStatus;
 import com.reflecta.enums.GoalType;
 import com.reflecta.repository.GoalRepository;
+import com.reflecta.repository.UsersRepository;
 
 @Service
 	public class GoalSchedulerService {
@@ -21,7 +23,16 @@ import com.reflecta.repository.GoalRepository;
 		
 		@Autowired
 		private GoalService gs;
+		
+		@Autowired
+		private UsersRepository us; 
 
+		@Autowired
+		private MoodService ms;
+		
+		@Autowired
+		private SleepService ss;
+		
 	    @Scheduled(cron = "0 0/2 * * * ?") // every 2 minutes
 	    public void updateDietGoalsScheduler() {
 	        LocalDate today = LocalDate.now();
@@ -35,7 +46,7 @@ import com.reflecta.repository.GoalRepository;
 	    }
 
 	  
-	    @Scheduled(cron = "0 58 12 * * ?") // Runs at 12:58 PM daily
+	    @Scheduled(cron = "0 41 12 * * ?") // Runs at 12:41 PM daily
 	    public void checkDailyGoals() {
 	        LocalDate today = LocalDate.now();
 	        List<Goal> dailyGoals = goalRepository.findAllByFrequencyAndStatus(Frequency.DAILY, GoalStatus.ONGOING);
@@ -61,7 +72,25 @@ import com.reflecta.repository.GoalRepository;
 	        }
 	    }
 
- }
+	        @Scheduled(cron = "0 0 0 * * SUN") // Every Sunday at midnight
+	        public void evaluateWeeklyMentalHealth() {
+	            List<Users> allUsers = us.findAll();
+
+	            for (Users user : allUsers) {
+	                Long userId = user.getId();
+	                double moodAvg = ms.calculateWeeklyAverageMoodScore(userId);
+	                double sleepAvg = ss.calculateWeeklySleepQualityScore(userId); // you'd implement this
+	             
+	                // --- Evaluation logic ---
+	    		    if (moodAvg > 3.0 && sleepAvg > 3.0) {
+	    		    	System.out.println("User " + userId + ": Your mental wellness might be deteriorating. Consider consulting a counsellor.");
+	    		    } else {
+	    		    	System.out.println("User " + userId + ": Your mental wellness appears stable.");
+	    		    }
+	    		    
+	            }
+	        }
+	    }
 
 	    
 	    

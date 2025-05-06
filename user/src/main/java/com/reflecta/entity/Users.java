@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-//@Data
 @Table(name = "users") 
 public class Users {
     

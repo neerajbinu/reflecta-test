@@ -19,7 +19,6 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-//@Data
 @Table(name = "meal_log") 
 
 public class MealLog {
@@ -178,7 +177,6 @@ public class MealLog {
     private FoodItem foodItem;
     
     @JsonIgnore
-
 	 @ManyToOne(optional = false)
 	 @JoinColumn(name = "user_id")
 	    private Users user;

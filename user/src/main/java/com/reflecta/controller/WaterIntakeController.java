@@ -6,6 +6,7 @@ import com.reflecta.entity.WaterIntake;
 import com.reflecta.service.UsersService;
 import com.reflecta.service.WaterIntakeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,14 +27,26 @@ public class WaterIntakeController {
 //        return waterIntake.saveOrUpdateWaterIntake(user, ml);
 //    }
     
-    @PostMapping("/add")
-    public WaterIntake addWater(@RequestBody WaterRequest request) {
-        Users user = userService.getUserById(request.getUserId());
-        return waterIntake.saveOrUpdateWaterIntake(user, request.getMl());
-    }
+    	@PostMapping("{id}/add")
+//    	public ResponseEntity<?> addWater(@PathVariable Long id, @RequestBody WaterRequest request) {
+    	public ResponseEntity<?> addWater(@PathVariable Long id) {
+    	
+    	   // Users user = userService.getUserById(request.getUserId());
+    		Users user = userService.getUserById(id);
+    	    try {
+    	        WaterIntake updated = waterIntake.saveOrUpdateWaterIntake(user, 200);
+    	        if (updated.getTotalMl() >= 3000) {
+    	            return ResponseEntity.ok("Goal reached ! ✅");
+    	        } else {
+    	            return ResponseEntity.ok("Water intake updated successfully 💧");
+    	        }
+    	    } catch (IllegalArgumentException e) {
+    	        return ResponseEntity.badRequest().body(e.getMessage());
+    	    }
+    	}
 
 
-    @GetMapping("/last7/{userid}")
+    @GetMapping("/last7/{userId}")
     public List<WaterIntake> getLast7Days(@PathVariable Long userId) {
         Users user = userService.getUserById(userId);
         return waterIntake.getLast7DaysIntake(user);
@@ -45,10 +58,10 @@ public class WaterIntakeController {
         return waterIntake.getTodayIntake(user).orElse(null);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteIntake(@PathVariable Long id) {
-        waterIntake.deleteWaterIntake(id);
-    }
+//    @DeleteMapping("/{id}")
+//    public void deleteIntake(@PathVariable Long id) {
+//        waterIntake.deleteWaterIntake(id);
+//    }
 }
 
 

@@ -70,10 +70,27 @@ public class DummyController {
         summary.put("moodStatus", moodStatuses.get(random.nextInt(moodStatuses.size())));
         return summary;
     }
+    @GetMapping("/food")
+    public Map<String, Object> getDummyFood() {
+      
+        Map<String, Object> foodMap = new HashMap<>();
+        foodMap.put("id", food.getId());
+        foodMap.put("name", food.getName());
+        foodMap.put("category", food.getCategory());
+        foodMap.put("servingSize", food.getServingSize());
+        foodMap.put("caloriesPerServing", food.getCaloriesPerServing());
+        foodMap.put("carbsPerServing", food.getCarbsPerServing());
+        foodMap.put("proteinPerServing", food.getProteinPerServing());
+        foodMap.put("fatPerServing", food.getFatPerServing());
+        foodMap.put("fiberPerServing", food.getFiberPerServing());
+        foodMap.put("sugarPerServing", food.getSugarPerServing());
+
+        return foodMap;
+    }
 }
-//http://localhost:8080/dummy/exercise
-//http://localhost:8080/dummy/sleep
-//http://localhost:8080/dummy/water
-//http://localhost:8080/dummy/mood
-//http://localhost:8080/dummy/dailysummary
+//http://localhost:8081/dummy/exercise
+//http://localhost:8081/dummy/sleep
+//http://localhost:8081/dummy/water
+//http://localhost:8081/dummy/mood
+//http://localhost:8081/dummy/dailysummary
 
