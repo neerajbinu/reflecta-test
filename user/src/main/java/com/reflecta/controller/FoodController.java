@@ -59,6 +59,7 @@ public class FoodController {
     public ResponseEntity<MealLog> logMeal(@PathVariable Long userId,@RequestBody MealLogRequest request) {
        MealLog loggedMeal=foodService.logMeal(userId,request);
        return new ResponseEntity<MealLog>(loggedMeal,HttpStatus.CREATED);
+	
     }
     
     @PostMapping("/meals/get")

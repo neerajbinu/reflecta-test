@@ -13,10 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.reflecta.healthAPI.enums.ExerciseType;
+import com.reflecta.healthAPI.enums.MoodStatus;
 import com.reflecta.healthAPI.enums.SleepQuality;
 
 @RestController
-@RequestMapping("/dummy")
+@RequestMapping("/health")
 public class APIController {
 
     private final Random random = new Random();
@@ -71,16 +72,41 @@ public class APIController {
         water.put("goalMl", 3000);
         return water;
     }
-//
-//    @GetMapping("/mood")
-//    public Map<String, Object> getDummyMood() {
-//        Map<String, Object> mood = new HashMap<>();
-//        mood.put("date", LocalDate.now());
-//        mood.put("moodStatus", moodStatuses.get(random.nextInt(moodStatuses.size())));
-//        mood.put("stressLevel", 1 + random.nextInt(5)); // 1 (very happy) to 5 (stressed)
-//        return mood;
-//    }
-//    
+
+    @GetMapping("/mood")
+    public Map<String, Object> getDummyMood() {
+        Map<String, Object> mood = new HashMap<>();
+
+        // Random date within the last 7 days
+        mood.put("date", LocalDate.now().minusDays(random.nextInt(7)));
+
+        // Random MoodStatus from enum
+        MoodStatus[] statuses = MoodStatus.values();
+        MoodStatus randomStatus = statuses[random.nextInt(statuses.length)];
+        mood.put("moodStatus", randomStatus);
+        mood.put("moodScore", randomStatus.getScore()); // Add mood score if needed
+
+        // Stress level between 1 (low stress) to 5 (high stress)
+        mood.put("stressLevel", 1 + random.nextInt(5));
+
+        return mood;
+    }
+    
+    @GetMapping("/food")
+    public Map<String, Object> getDummyFoodItem() {
+        Map<String, Object> foodItem = new HashMap<>();
+        foodItem.put("name", "Grilled Chicken");
+        foodItem.put("caloriesPerServing", 165);
+        foodItem.put("carbsPerServing", 0);
+        foodItem.put("proteinPerServing", 31);
+        foodItem.put("fatPerServing", 4);
+        foodItem.put("fiberPerServing", 0);
+        foodItem.put("sugarPerServing", 0);
+
+        return foodItem;
+    }
+
+
     
 
 //    @GetMapping("/dailysummary")
