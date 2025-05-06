@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.reflecta.healthAPI.enums.ExerciseType;
+import com.reflecta.healthAPI.enums.MealType;
 import com.reflecta.healthAPI.enums.MoodStatus;
 import com.reflecta.healthAPI.enums.SleepQuality;
 
@@ -94,14 +95,17 @@ public class APIController {
     
     @GetMapping("/food")
     public Map<String, Object> getDummyFoodItem() {
+    	MealType[] mealTypes = MealType.values(); // get all enum values
+    	MealType randomMealType = mealTypes[new Random().nextInt(mealTypes.length)];
         Map<String, Object> foodItem = new HashMap<>();
-        foodItem.put("name", "Grilled Chicken");
+        foodItem.put("name", "CHICKEN BREAST");
         foodItem.put("caloriesPerServing", 165);
         foodItem.put("carbsPerServing", 0);
         foodItem.put("proteinPerServing", 31);
         foodItem.put("fatPerServing", 4);
         foodItem.put("fiberPerServing", 0);
         foodItem.put("sugarPerServing", 0);
+        foodItem.put("Type", randomMealType);
 
         return foodItem;
     }
