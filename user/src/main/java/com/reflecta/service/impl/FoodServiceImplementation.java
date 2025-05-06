@@ -1,37 +1,40 @@
 
 package com.reflecta.service.impl;
 
-import com.reflecta.entity.MealLog;
-import com.reflecta.entity.FoodItem;
-import com.reflecta.entity.Users;
-import com.reflecta.enums.mealLog.MealType;
-import com.reflecta.repository.MealLogRepository;
-import com.reflecta.repository.FoodItemRepository;
-import com.reflecta.repository.UsersRepository;
-import com.reflecta.service.FoodService;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
+import com.reflecta.entity.FoodItem;
+import com.reflecta.entity.MealLog;
+import com.reflecta.entity.Users;
+import com.reflecta.enums.mealLog.MealType;
+import com.reflecta.repository.FoodItemRepository;
+import com.reflecta.repository.GoalRepository;
+import com.reflecta.repository.MealLogRepository;
+import com.reflecta.repository.UsersRepository;
+import com.reflecta.service.FoodService;
 
 @Service
 public class FoodServiceImplementation implements FoodService {
     
-    private final FoodItemRepository foodItemRepository;
-    private final MealLogRepository mealLogRepository;
-    private final UsersRepository usersRepository;
+	@Autowired
+    private  FoodItemRepository foodItemRepository;
+	
+	@Autowired
+    private  MealLogRepository mealLogRepository;
     
-    @Autowired
-    public FoodServiceImplementation(FoodItemRepository foodItemRepository, 
-                          MealLogRepository mealLogRepository,
-                          UsersRepository usersRepository) {
-        this.foodItemRepository = foodItemRepository;
-        this.mealLogRepository = mealLogRepository;
-        this.usersRepository = usersRepository;
-    }
+	@Autowired
+    private  UsersRepository usersRepository;
     
+	@Autowired
+	private GoalRepository goalRepository;
+	
     // Food item operations
     @Override
     public List<FoodItem> getAllFoodItems() {

@@ -16,8 +16,6 @@ public interface MealLogRepository extends JpaRepository<MealLog, Long> {
     List<MealLog> findByUserIdAndDateBetween(Long userId, LocalDate startDate, LocalDate endDate);
 	List<MealLog> findByUserId(Long userId);
 
-
-    
     @Query(value = "SELECT * FROM meal_log WHERE user_id = ?1 ORDER BY date DESC LIMIT ?2", nativeQuery = true)
     List<MealLog> findTopByUserIdOrderByDateDesc(Long userId, int limit);
 }

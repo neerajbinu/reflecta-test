@@ -20,6 +20,7 @@ import com.reflecta.enums.SleepQuality;
 import com.reflecta.repository.GoalRepository;
 import com.reflecta.repository.SleepRepository;
 import com.reflecta.repository.SleepSessionRepository;
+import com.reflecta.service.GoalService;
 import com.reflecta.service.SleepService;
 import com.reflecta.service.SleepSessionService;
 import com.reflecta.service.UsersService;
@@ -41,6 +42,9 @@ public class SleepSessionServiceImplementation implements SleepSessionService {
     
     @Autowired
     private GoalRepository goalRepository;
+    
+    @Autowired
+    private GoalService goalService;
 
     // Start a new sleep session and update it in the Goal
     @Override
@@ -112,7 +116,6 @@ public class SleepSessionServiceImplementation implements SleepSessionService {
 
         sleep.setDurationHours(totalDuration);
         sleep.setSleepQuality(sleepService.estimateSleepQuality(totalDuration, totalDisturbances));
-
         sleepRepository.save(sleep);
 
         // Update SLEEP goal progress if goal exists
@@ -123,18 +126,12 @@ public class SleepSessionServiceImplementation implements SleepSessionService {
 
         if (goalOpt.isPresent()) {
             Goal goal = goalOpt.get();
-            goal.setCurrentProgress(goal.getCurrentProgress() + hours);
-
-            // Mark goal as completed if target met or exceeded
-            if (goal.getCurrentProgress() >= goal.getTargetHours()) {
-                goal.setStatus(GoalStatus.COMPLETED);
-            }
-
-            goalRepository.save(goal);
+            goalService.updateGoalProgress(goal, hours); // <-- Centralized logic
         }
 
         return "Sleep session ended. Total Duration: " + totalDuration + " hrs. Total Disturbances: " + totalDisturbances;
     }
+
 
     // Updated to support multiple Sleep records for same user-date
     @Override

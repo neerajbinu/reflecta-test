@@ -10,45 +10,62 @@ import org.springframework.stereotype.Service;
 import com.reflecta.entity.Goal;
 import com.reflecta.enums.Frequency;
 import com.reflecta.enums.GoalStatus;
+import com.reflecta.enums.GoalType;
 import com.reflecta.repository.GoalRepository;
 
 @Service
 	public class GoalSchedulerService {
+		
+		@Autowired
+	    private  GoalRepository goalRepository;
+		
+		@Autowired
+		private GoalService gs;
 
-	    private final GoalRepository goalRepository;
+	    @Scheduled(cron = "0 0/2 * * * ?") // every 2 minutes
+	    public void updateDietGoalsScheduler() {
+	        LocalDate today = LocalDate.now();
+	        List<Goal> dietGoals = goalRepository.findAllByTypeAndStatus(GoalType.DIET, GoalStatus.ONGOING);
 
-	    @Autowired
-	    public GoalSchedulerService(GoalRepository goalRepository) {
-	        this.goalRepository = goalRepository;
+	        for (Goal goal : dietGoals) {
+	            if (!goal.getStartDate().isAfter(today) && !goal.getEndDate().isBefore(today)) {
+	                gs.updateGoalProgress(goal, 0.0); // internally calls updateDietGoal
+	            }
+	        }
 	    }
 
-	   // @Scheduled(cron = "0 0 0 * * ?") // Every day at midnight
-	    @Scheduled(cron = "0 58 12 * * ?") // Runs at 12:50 PM daily
-
+	  
+	    @Scheduled(cron = "0 58 12 * * ?") // Runs at 12:58 PM daily
 	    public void checkDailyGoals() {
-	        LocalDate today = LocalDate.now(); // Check for yesterday's goals
+	        LocalDate today = LocalDate.now();
 	        List<Goal> dailyGoals = goalRepository.findAllByFrequencyAndStatus(Frequency.DAILY, GoalStatus.ONGOING);
 
 	        for (Goal goal : dailyGoals) {
 	            if (goal.getStartDate().isAfter(today) || goal.getEndDate().isBefore(today)) continue;
 
 	            boolean goalMet = switch (goal.getType()) {
-	                case SLEEP -> goal.getCurrentProgress() >= goal.getTargetHours();
-	                case EXERCISE -> goal.getCurrentProgress() >= goal.getTargetHours();
-	                case DIET -> goal.getCurrentProgress() >= goal.getTargetHours();
+	                case SLEEP, EXERCISE, DIET -> goal.getCurrentProgress() >= goal.getTarget();
 	                default -> true;
 	            };
 
 	            if (!goalMet) {
 	                goal.setStatus(GoalStatus.FAILED);
 	                goalRepository.save(goal);
+	                System.out.println("Goal ID " + goal.getId() + " failed.");
 	            }
+
+	            
+	            // Optional reset(if you want to reset the progress for the next day)
+	            // goal.setCurrentProgress(0.0);
+	            // goalRepository.save(goal);
 	        }
 	    }
 
+ }
+
 	    
 	    
-//	    Commented out to only check the Daily Goals
+//	    Commented out to only check the Daily Goals...The following 
 //	    @Scheduled(cron = "0 0 0 * * MON") // Every Monday
 //	    public void checkWeeklyGoals() {
 //	        LocalDate lastWeek = LocalDate.now().minusWeeks(1);
@@ -81,6 +98,6 @@ import com.reflecta.repository.GoalRepository;
 //	        }
 //	    }
 
-	}
+	
 
 

@@ -2,18 +2,35 @@ package com.reflecta.dto;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.reflecta.enums.Frequency;
+import com.reflecta.enums.GoalMetric;
 import com.reflecta.enums.GoalType;
+import com.reflecta.enums.WeightGoal;
 
 public class GoalRequestDTO {
-    private GoalType type;
-    private Frequency frequency;
-    private double targetHours;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private Long userId; // To identify the user who is creating the goal
+    
+    private GoalType type; // Type of goal (SLEEP, EXERCISE, DIET)
+    private Frequency frequency; // Frequency (DAILY, WEEKLY, etc.)
+    
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double target;
+    // General target for the goal (could be hours, calories, etc.)
+    
+    private LocalDate startDate; // Start date of the goal
+    private LocalDate endDate; // End date of the goal
+    private GoalMetric metric;
+    private WeightGoal weightGoal;
 
-    // Getters and Setters
+	// Getters and Setters
+    public GoalMetric getMetric() {
+		return metric;
+	}
+
+	public void setMetric(GoalMetric metric) {
+		this.metric = metric;
+	}
+
     public GoalType getType() {
         return type;
     }
@@ -30,12 +47,12 @@ public class GoalRequestDTO {
         this.frequency = frequency;
     }
 
-    public double getTargetHours() {
-        return targetHours;
+    public Double getTarget() {
+        return target;
     }
 
-    public void setTargetHours(double targetHours) {
-        this.targetHours = targetHours;
+    public void setTarget(Double target) {
+        this.target = target;
     }
 
     public LocalDate getStartDate() {
@@ -54,12 +71,13 @@ public class GoalRequestDTO {
         this.endDate = endDate;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
+	public WeightGoal getWeightGoal() {
+		return weightGoal;
+	}
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
+	public void setWeightGoal(WeightGoal weightGoal) {
+		this.weightGoal = weightGoal;
+	}
+	
 }
 

@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.reflecta.entity.Goal;
+import com.reflecta.entity.Users;
 import com.reflecta.enums.Frequency;
 import com.reflecta.enums.GoalStatus;
 import com.reflecta.enums.GoalType;
@@ -24,6 +25,12 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
 	List<Goal> findByUserId(Long userId);
 	
 	List<Goal> findAllByFrequencyAndStatus(Frequency frequency, GoalStatus status);
+	
+	Optional<Goal> findByUserAndTypeAndStatus(Users user, GoalType type, GoalStatus status);
+
+	List<Goal> findAllByTypeAndStatus(GoalType diet, GoalStatus ongoing);
+
+
 
 
 

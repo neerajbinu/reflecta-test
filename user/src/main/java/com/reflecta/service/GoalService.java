@@ -12,6 +12,11 @@ public interface GoalService {
 	Goal createGoal(Long userId,GoalRequestDTO goalRequestDTO);
 	Optional<Goal> getActiveSleepGoalForUser(Long userId, LocalDate date);
 	 List<Goal> getGoalsByUser(Long userId);
+	void updateGoalProgress(Goal goal, Double progress);
+	Goal createDietGoal(Long userId, GoalRequestDTO goalRequestDTO);
+	Goal createExerciseGoal(Long userId, GoalRequestDTO goalRequestDTO);
+	Goal createSleepGoal(Long userId, GoalRequestDTO goalRequestDTO);
+	//void updateGoalProgress(Goal goal,Double progress);
 	
 
 }
