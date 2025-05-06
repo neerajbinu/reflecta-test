@@ -28,9 +28,10 @@ public class WaterIntakeServiceImplementation implements WaterIntakeService {
         if (optional.isPresent()) {
             WaterIntake existing = optional.get();
             existing.setTotalMl(existing.getTotalMl() + intakeMl);
-            return waterIntakeRepository.save(existing);
+            WaterIntake UpdatedWaterIntake=waterIntakeRepository.save(existing);
+            return UpdatedWaterIntake;
         } else {
-            WaterIntake newEntry = new WaterIntake(user, today, intakeMl, 2000);
+            WaterIntake newEntry = new WaterIntake(user, today, intakeMl, 3000);
             return waterIntakeRepository.save(newEntry);
         }
     }
@@ -55,7 +56,4 @@ public class WaterIntakeServiceImplementation implements WaterIntakeService {
     public void deleteWaterIntake(Long id) {
         waterIntakeRepository.deleteById(id);
     }
-
-
-	
 }
