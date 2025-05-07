@@ -19,12 +19,10 @@ function App() {
         <Route path="/journal" element={<JournalPage />} />
         <Route path="/water" element={<WaterIntakePage />} />
         <Route path="/sleep" element={<SleepPage />} />
-
-        <Route path="/diet" element={<DietPage/>}/>
+        <Route path="/diet" element={<DietPage />} />
       </Routes>
     </Router>
   );
 }
 
 export default App;
-
