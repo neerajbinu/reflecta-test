@@ -7,6 +7,7 @@ import HomePage from "./Pages/HomePage"
 import JournalPage from './Pages/JournalPage';
 import WaterIntakePage from './Pages/WaterIntakePage';
 import SleepPage from './Pages/SleepPage';
+import DietPage from './Pages/DietPage';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/water" element={<WaterIntakePage />} />
         <Route path="/sleep" element={<SleepPage />} />
 
+        <Route path="/diet" element={<DietPage/>}/>
       </Routes>
     </Router>
   );
