@@ -82,7 +82,7 @@ const HomePage = () => {
 
       {/* Sidebar */}
       <div className="d-flex flex-column bg-dark text-white p-3" style={{ width: "300px" }}>
-        <h4 >Reflecta</h4>
+        <h4>Reflecta</h4>
         <p className="text-white fst-italic mb-4">Reflects you</p>
         <SidebarLink icon={<FaHome />} label="Overview" onClick={() => navigate("/home")}/>
         <SidebarLink icon={<FaDumbbell />} label="Exercise" onClick={() => navigate("/excercise")}/>

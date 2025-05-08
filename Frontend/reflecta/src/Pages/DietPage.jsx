@@ -59,13 +59,17 @@ const DietPage = () => {
         <SidebarLink icon={<FaTint />} label="Water" />
         <SidebarLink icon={<FaBed />} label="Sleep" />
         <SidebarLink icon={<FaBook />} label="Journal" />
+        <SidebarLink icon={<FaBullseye />} label="Goals" onClick={() => navigate("/goals")} selected />
         <SidebarLink icon={<FaSignOutAlt />} label="Logout" />
       </div>
 
       <div className="flex-grow-1 p-4">
         <h3>Meal Log</h3>
         {!showForm && (
-          <Button onClick={handleAddMealClick}>Add Meal</Button>
+          <Button onClick={handleAddMealClick} style={{ backgroundColor: "#1AB0B0", borderColor: "#1AB0B0", color: "#fff" }}>
+          Add Meal
+        </Button>
+        
 )}
         {showForm && (
         <Form className="mt-3 p-3 border rounded bg-light" onSubmit={handleSubmit}>

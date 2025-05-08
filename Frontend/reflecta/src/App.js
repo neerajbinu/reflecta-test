@@ -8,6 +8,7 @@ import JournalPage from './Pages/JournalPage';
 import WaterIntakePage from './Pages/WaterIntakePage';
 import SleepPage from './Pages/SleepPage';
 import DietPage from './Pages/DietPage';
+import GoalPage from './Pages/GoalPage';
 
 function App() {
   return (
