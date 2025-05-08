@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Card, Button, Table, Form } from "react-bootstrap";
-import { FaHome, FaDumbbell, FaUtensils, FaTint, FaBed, FaBook, FaBullseye, FaSignOutAlt } from "react-icons/fa";
+import { Button, Table, Form } from "react-bootstrap";
+import { FaHome, FaDumbbell, FaUtensils, FaTint, FaBed, FaBook, FaSignOutAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const DietPage = () => {
