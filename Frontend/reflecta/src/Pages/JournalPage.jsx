@@ -45,7 +45,7 @@ const JournalPage = () => {
         <SidebarLink icon={<FaUtensils />} label="Diet" onClick={() => navigate("/diet")} />
         <SidebarLink icon={<FaTint />} label="Water" onClick={() => navigate("/water")} />
         <SidebarLink icon={<FaBed />} label="Sleep" onClick={() => navigate("/sleep")} />
-        <SidebarLink icon={<FaBook />} label="Journal" onClick={() => navigate("/journal")} />
+        <SidebarLink icon={<FaBook />} label="Journal" onClick={() => navigate("/journal")} selected />
         <SidebarLink icon={<FaSignOutAlt />} label="Logout" onClick={() => navigate("/")} />
       </div>
 
