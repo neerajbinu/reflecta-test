@@ -7,6 +7,7 @@ import HomePage from "./Pages/HomePage"
 import JournalPage from './Pages/JournalPage';
 import WaterIntakePage from './Pages/WaterIntakePage';
 import DietPage from './Pages/DietPage';
+import GoalPage from './Pages/GoalPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/journal" element={<JournalPage />} />
         <Route path="/water" element={<WaterIntakePage />} />
         <Route path="/diet" element={<DietPage/>}/>
+        <Route path="/goals" element={<GoalPage/>}/>
       </Routes>
     </Router>
   );

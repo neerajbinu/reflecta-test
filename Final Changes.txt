@@ -16,3 +16,5 @@ private double durationHours; -- total 5 digits, only two after the decimal
 
 
 4) Notifications
+
+5) Change color of buttons
