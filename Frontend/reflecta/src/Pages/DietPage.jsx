@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Table, Form } from "react-bootstrap";
-import { FaHome, FaDumbbell, FaUtensils, FaTint, FaBed, FaBook, FaSignOutAlt } from "react-icons/fa";
+import { FaHome, FaBullseye, FaDumbbell, FaUtensils, FaTint, FaBed, FaBook, FaSignOutAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const DietPage = () => {
@@ -53,14 +53,14 @@ const DietPage = () => {
       <div className="d-flex flex-column bg-dark text-white p-3" style={{ width: "300px" }}>
         <h4>Reflecta</h4>
         <p className="text-white fst-italic mb-4">Reflects you</p>
-        <SidebarLink icon={<FaHome />} label="Overview" onClick={() => navigate("/home")} />
-        <SidebarLink icon={<FaDumbbell />} label="Exercise" />
-        <SidebarLink icon={<FaUtensils />} label="Diet" />
-        <SidebarLink icon={<FaTint />} label="Water" />
-        <SidebarLink icon={<FaBed />} label="Sleep" />
-        <SidebarLink icon={<FaBook />} label="Journal" />
-        <SidebarLink icon={<FaBullseye />} label="Goals" onClick={() => navigate("/goals")} selected />
-        <SidebarLink icon={<FaSignOutAlt />} label="Logout" />
+      <SidebarLink icon={<FaHome />} label="Overview" onClick={() => navigate("/home")} />
+                  <SidebarLink icon={<FaDumbbell />} label="Exercise" onClick={() => navigate("/exercise")} />
+                  <SidebarLink icon={<FaUtensils />} label="Diet" onClick={() => navigate("/diet")} selected  />
+                  <SidebarLink icon={<FaTint />} label="Water" onClick={() => navigate("/water")} />
+                  <SidebarLink icon={<FaBed />} label="Sleep" onClick={() => navigate("/sleep")}/>
+                  <SidebarLink icon={<FaBook />} label="Journal" onClick={() => navigate("/journal")} />
+                  <SidebarLink icon={<FaBullseye />} label="Goals" onClick={() => navigate("/goals")}/>
+                  <SidebarLink icon={<FaSignOutAlt />} label="Logout" onClick={() => navigate("/")} />
       </div>
 
       <div className="flex-grow-1 p-4">
