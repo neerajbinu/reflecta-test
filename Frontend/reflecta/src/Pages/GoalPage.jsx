@@ -62,7 +62,7 @@ const GoalPage = () => {
               <SidebarLink icon={<FaTint />} label="Water" onClick={() => navigate("/water")} />
               <SidebarLink icon={<FaBed />} label="Sleep" onClick={() => navigate("/sleep")}/>
               <SidebarLink icon={<FaBook />} label="Journal" onClick={() => navigate("/journal")} />
-              <SidebarLink icon={<FaDumbbell />} label="Goals" onClick={() => navigate("/goals")}/>
+              <SidebarLink icon={<FaBullseye />} label="Goals" onClick={() => navigate("/goals")}/>
               <SidebarLink icon={<FaSignOutAlt />} label="Logout" onClick={() => navigate("/")} />
       </div>
 
@@ -89,17 +89,18 @@ const GoalPage = () => {
                   </div>
                 ))}
               </div>
-              <div className="col-md-4">
+              {/* <div className="col-md-4">
                 <label>Frequency:</label>
                 <select className="form-select" name="frequency" value={formData.frequency} onChange={handleInputChange}>
                   <option value="DAILY">DAILY</option>
                   <option value="WEEKLY">WEEKLY</option>
                   <option value="MONTHLY">MONTHLY</option>
                 </select>
-              </div>
+              </div> */}
               <div className="col-md-4">
                 <label>Metric:</label>
                 <select className="form-select" name="metric" value={formData.metric} onChange={handleInputChange}>
+                <option value="DURATION"></option>
                   <option value="DURATION">DURATION</option>
                   <option value="CALORIES_BURNED">CALORIES BURNED</option>
                   <option value="CALORIES_CONSUMED">CALORIES CONSUMED</option>

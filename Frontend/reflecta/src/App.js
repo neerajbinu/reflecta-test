@@ -9,6 +9,7 @@ import WaterIntakePage from './Pages/WaterIntakePage';
 import SleepPage from './Pages/SleepPage';
 import DietPage from './Pages/DietPage';
 import GoalPage from './Pages/GoalPage';
+import ExercisePage from './Pages/ExcercisePage';
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
         <Route path="/water" element={<WaterIntakePage />} />
         <Route path="/sleep" element={<SleepPage />} />
         <Route path="/diet" element={<DietPage />} />
+        <Route path="/goals" element={<GoalPage />} />
+        <Route path="/exercise" element={<ExercisePage />} />
+
       </Routes>
     </Router>
   );
